@@ -1,0 +1,26 @@
+{
+  "namespace": "com.anw.kafka.order.avro.model",
+  "type": "record",
+  "name": "TestRequestAvroModel",
+  "fields": [
+    {
+      "name": "id",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "warehouseId",
+      "type": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "message",
+      "type": {
+        "type": "string"
+      }
+    }
+  ]
+}

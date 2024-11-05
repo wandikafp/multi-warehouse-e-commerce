@@ -1,0 +1,49 @@
+{
+  "namespace": "com.anw.kafka.order.avro.model",
+  "type": "record",
+  "name": "RegisterUserRequestAvroModel",
+  "fields": [
+    {
+      "name": "id",
+      "type": {
+        "type": "string",
+        "logicalType": "uuid"
+      }
+    },
+    {
+      "name": "username",
+      "type": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "firstName",
+      "type": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "lastName",
+      "type": {
+        "type": "string"
+      }
+    },
+     {
+       "name": "role",
+       "type": {
+         "type": "string"
+       }
+     },
+      {
+        "name": "warehouseId",
+        "type": [
+          "null",
+          {
+            "type": "string",
+            "logicalType": "uuid"
+          }
+        ],
+        "default": null
+      }
+  ]
+}
