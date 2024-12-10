@@ -1,7 +1,9 @@
 package com.anw.user.service.application.rest;
 
-import com.anw.user.service.domain.dto.register.RegisterUserCommand;
-import com.anw.user.service.domain.dto.register.RegisterUserResponse;
+import com.anw.user.service.domain.dto.login.UserLoginCommand;
+import com.anw.user.service.domain.dto.login.UserLoginResponse;
+import com.anw.user.service.domain.dto.register.UserRegisterCommand;
+import com.anw.user.service.domain.dto.register.UserRegisterResponse;
 import com.anw.user.service.domain.ports.input.service.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,16 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/user", produces = "application/json")
+@RequestMapping(value = "/api/user", produces = "application/json")
 @RequiredArgsConstructor
 public class UserController {
     private final UserApplicationService userApplicationService;
 
-    @PostMapping
-    public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody RegisterUserCommand registerUserCommand) {
+    @PostMapping("/auth/signup")
+    public ResponseEntity<UserRegisterResponse> userRegistration(@RequestBody UserRegisterCommand userRegisterCommand) {
         log.info("Registering user: ");
-        RegisterUserResponse registerUserResponse = userApplicationService.registerUser(registerUserCommand);
-        log.info("User registered with id: {}", registerUserResponse);
-        return ResponseEntity.ok(registerUserResponse);
+        UserRegisterResponse userRegisterResponse = userApplicationService.userRegistration(userRegisterCommand);
+        log.info("User registered with id: {}", userRegisterResponse);
+        return ResponseEntity.ok(userRegisterResponse);
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<UserLoginResponse> userlogin(@RequestBody UserLoginCommand userLoginCommand) {
+        log.info("User login processing: ");
+        UserLoginResponse userLoginResponse = userApplicationService.userLogin(userLoginCommand);
+        log.info("User registered with id: {}", userLoginResponse);
+        return ResponseEntity.ok(userLoginResponse);
     }
 }

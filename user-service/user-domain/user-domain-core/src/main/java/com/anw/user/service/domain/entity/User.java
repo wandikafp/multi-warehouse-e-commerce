@@ -14,24 +14,25 @@ import java.util.UUID;
 @Getter
 public class User extends AggregateRoot<UserId> {
     private final String username;
-    private final String firstName;
-    private final String lastName;
-    private final String password;
+    private final String fullName;
+    private String password;
     private final Role role;
     private final WarehouseId warehouseId;
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Builder
     public User(UserId userId,
                      String username,
-                     String firstName,
-                     String lastName,
+                     String fullName,
                      String password,
                      Role role,
                      WarehouseId warehouseId) {
         super.setId(userId);
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = fullName;
         this.password = password;
         this.role = role;
         this.warehouseId = warehouseId;

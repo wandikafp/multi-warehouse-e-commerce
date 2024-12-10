@@ -1,6 +1,5 @@
 package com.anw.user.service.domain.dto.register;
 
-import com.anw.domain.valueobject.Role;
 import com.anw.domain.valueobject.WarehouseId;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class RegisterUserCommand {
+public class UserRegisterCommand {
     @NotNull
     private String userName;
     @NotNull

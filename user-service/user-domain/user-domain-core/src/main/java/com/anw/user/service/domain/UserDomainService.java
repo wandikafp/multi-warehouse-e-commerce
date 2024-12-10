@@ -5,6 +5,7 @@ import com.anw.user.service.domain.entity.User;
 import com.anw.user.service.domain.event.UserRegisteredEvent;
 
 public interface UserDomainService {
-    UserRegisteredEvent validateAndRegisterUser(User user, DomainEventPublisher<UserRegisteredEvent>
+    UserRegisteredEvent registerUser(User user, DomainEventPublisher<UserRegisteredEvent>
                                                     orderCreatedEventDomainEventPublisher);
+    Boolean isValidLogin(User requestingUser, User savedUser);
 }
