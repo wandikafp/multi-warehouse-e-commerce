@@ -1,11 +1,15 @@
 import Image from "next/image";
+import HeroSection from "./components/HeroSection";
+import ProductCategories from "./components/ProductCategories";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold text-center">
-        Welcome to your new Next.js project!
-      </h1>
+    <div className="flex flex-col items-center justify-between p-4">
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Product Categories */}
+      <ProductCategories />
     </div>
   );
 }
