@@ -1,4 +1,4 @@
-package com.anw.user.service.domain.dto.login;
+package com.anw.user.service.domain.dto.auth;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -12,9 +12,9 @@ public class WarehouseMessagingDataMapper {
     public UserResponse registerUserRequestAvroModelToUserResponse(RegisterUserRequestAvroModel registerUserRequestAvroModel) {
         return UserResponse.builder()
                 .userId(registerUserRequestAvroModel.getId())
-                .userName(registerUserRequestAvroModel.getUsername())
-                .firstName(registerUserRequestAvroModel.getFirstName())
-                .lastName(registerUserRequestAvroModel.getLastName())
+                .userName(registerUserRequestAvroModel.getFullName())
+                .firstName(registerUserRequestAvroModel.getFullName())
+                .lastName(registerUserRequestAvroModel.getFullName())
                 .role(registerUserRequestAvroModel.getRole())
                 .warehouseId(Optional.ofNullable(registerUserRequestAvroModel.getWarehouseId())
                         .map(UUID::toString)

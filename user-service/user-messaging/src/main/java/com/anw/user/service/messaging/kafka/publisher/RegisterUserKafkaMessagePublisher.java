@@ -25,9 +25,8 @@ public class RegisterUserKafkaMessagePublisher implements UserRegisteredMessageP
 
         RegisterUserRequestAvroModel registerUserRequest = RegisterUserRequestAvroModel.newBuilder()
                 .setId(domainEvent.getUser().getId().getValue())
-                .setUsername(domainEvent.getUser().getUsername())
-                .setFirstName(domainEvent.getUser().getFirstName())
-                .setLastName(domainEvent.getUser().getLastName())
+                .setEmail(domainEvent.getUser().getEmail())
+                .setFullName(domainEvent.getUser().getFullName())
                 .setRole(domainEvent.getUser().getRole().toString())
                 .setWarehouseId(Optional.ofNullable(domainEvent.getUser().getWarehouseId())
                         .map(BaseId::getValue)

@@ -11,19 +11,13 @@
       }
     },
     {
-      "name": "username",
+      "name": "email",
       "type": {
         "type": "string"
       }
     },
     {
-      "name": "firstName",
-      "type": {
-        "type": "string"
-      }
-    },
-    {
-      "name": "lastName",
+      "name": "fullName",
       "type": {
         "type": "string"
       }

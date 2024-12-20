@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class RegisterUserRequestAvroModel extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -9191924201948291361L;
+  private static final long serialVersionUID = -3664303136111237324L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"RegisterUserRequestAvroModel\",\"namespace\":\"com.anw.kafka.order.avro.model\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"username\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"firstName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"role\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"warehouseId\",\"type\":[\"null\",{\"type\":\"string\",\"logicalType\":\"uuid\"}],\"default\":null}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"RegisterUserRequestAvroModel\",\"namespace\":\"com.anw.kafka.order.avro.model\",\"fields\":[{\"name\":\"id\",\"type\":{\"type\":\"string\",\"logicalType\":\"uuid\"}},{\"name\":\"email\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"fullName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"role\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"warehouseId\",\"type\":[\"null\",{\"type\":\"string\",\"logicalType\":\"uuid\"}],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -77,9 +77,8 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
   }
 
   private java.util.UUID id;
-  private java.lang.String username;
-  private java.lang.String firstName;
-  private java.lang.String lastName;
+  private java.lang.String email;
+  private java.lang.String fullName;
   private java.lang.String role;
   private java.util.UUID warehouseId;
 
@@ -93,17 +92,15 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
   /**
    * All-args constructor.
    * @param id The new value for id
-   * @param username The new value for username
-   * @param firstName The new value for firstName
-   * @param lastName The new value for lastName
+   * @param email The new value for email
+   * @param fullName The new value for fullName
    * @param role The new value for role
    * @param warehouseId The new value for warehouseId
    */
-  public RegisterUserRequestAvroModel(java.util.UUID id, java.lang.String username, java.lang.String firstName, java.lang.String lastName, java.lang.String role, java.util.UUID warehouseId) {
+  public RegisterUserRequestAvroModel(java.util.UUID id, java.lang.String email, java.lang.String fullName, java.lang.String role, java.util.UUID warehouseId) {
     this.id = id;
-    this.username = username;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.email = email;
+    this.fullName = fullName;
     this.role = role;
     this.warehouseId = warehouseId;
   }
@@ -119,11 +116,10 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return id;
-    case 1: return username;
-    case 2: return firstName;
-    case 3: return lastName;
-    case 4: return role;
-    case 5: return warehouseId;
+    case 1: return email;
+    case 2: return fullName;
+    case 3: return role;
+    case 4: return warehouseId;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -131,7 +127,6 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
   private static final org.apache.avro.Conversion<?>[] conversions =
       new org.apache.avro.Conversion<?>[] {
       new org.apache.avro.Conversions.UUIDConversion(),
-      null,
       null,
       null,
       null,
@@ -150,11 +145,10 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: id = (java.util.UUID)value$; break;
-    case 1: username = value$ != null ? value$.toString() : null; break;
-    case 2: firstName = value$ != null ? value$.toString() : null; break;
-    case 3: lastName = value$ != null ? value$.toString() : null; break;
-    case 4: role = value$ != null ? value$.toString() : null; break;
-    case 5: warehouseId = (java.util.UUID)value$; break;
+    case 1: email = value$ != null ? value$.toString() : null; break;
+    case 2: fullName = value$ != null ? value$.toString() : null; break;
+    case 3: role = value$ != null ? value$.toString() : null; break;
+    case 4: warehouseId = (java.util.UUID)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -177,54 +171,37 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
   }
 
   /**
-   * Gets the value of the 'username' field.
-   * @return The value of the 'username' field.
+   * Gets the value of the 'email' field.
+   * @return The value of the 'email' field.
    */
-  public java.lang.String getUsername() {
-    return username;
+  public java.lang.String getEmail() {
+    return email;
   }
 
 
   /**
-   * Sets the value of the 'username' field.
+   * Sets the value of the 'email' field.
    * @param value the value to set.
    */
-  public void setUsername(java.lang.String value) {
-    this.username = value;
+  public void setEmail(java.lang.String value) {
+    this.email = value;
   }
 
   /**
-   * Gets the value of the 'firstName' field.
-   * @return The value of the 'firstName' field.
+   * Gets the value of the 'fullName' field.
+   * @return The value of the 'fullName' field.
    */
-  public java.lang.String getFirstName() {
-    return firstName;
+  public java.lang.String getFullName() {
+    return fullName;
   }
 
 
   /**
-   * Sets the value of the 'firstName' field.
+   * Sets the value of the 'fullName' field.
    * @param value the value to set.
    */
-  public void setFirstName(java.lang.String value) {
-    this.firstName = value;
-  }
-
-  /**
-   * Gets the value of the 'lastName' field.
-   * @return The value of the 'lastName' field.
-   */
-  public java.lang.String getLastName() {
-    return lastName;
-  }
-
-
-  /**
-   * Sets the value of the 'lastName' field.
-   * @param value the value to set.
-   */
-  public void setLastName(java.lang.String value) {
-    this.lastName = value;
+  public void setFullName(java.lang.String value) {
+    this.fullName = value;
   }
 
   /**
@@ -303,9 +280,8 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
     implements org.apache.avro.data.RecordBuilder<RegisterUserRequestAvroModel> {
 
     private java.util.UUID id;
-    private java.lang.String username;
-    private java.lang.String firstName;
-    private java.lang.String lastName;
+    private java.lang.String email;
+    private java.lang.String fullName;
     private java.lang.String role;
     private java.util.UUID warehouseId;
 
@@ -324,25 +300,21 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
         this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.username)) {
-        this.username = data().deepCopy(fields()[1].schema(), other.username);
+      if (isValidValue(fields()[1], other.email)) {
+        this.email = data().deepCopy(fields()[1].schema(), other.email);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.firstName)) {
-        this.firstName = data().deepCopy(fields()[2].schema(), other.firstName);
+      if (isValidValue(fields()[2], other.fullName)) {
+        this.fullName = data().deepCopy(fields()[2].schema(), other.fullName);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.lastName)) {
-        this.lastName = data().deepCopy(fields()[3].schema(), other.lastName);
+      if (isValidValue(fields()[3], other.role)) {
+        this.role = data().deepCopy(fields()[3].schema(), other.role);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.role)) {
-        this.role = data().deepCopy(fields()[4].schema(), other.role);
+      if (isValidValue(fields()[4], other.warehouseId)) {
+        this.warehouseId = data().deepCopy(fields()[4].schema(), other.warehouseId);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
-      }
-      if (isValidValue(fields()[5], other.warehouseId)) {
-        this.warehouseId = data().deepCopy(fields()[5].schema(), other.warehouseId);
-        fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
     }
 
@@ -356,25 +328,21 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
         this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.username)) {
-        this.username = data().deepCopy(fields()[1].schema(), other.username);
+      if (isValidValue(fields()[1], other.email)) {
+        this.email = data().deepCopy(fields()[1].schema(), other.email);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.firstName)) {
-        this.firstName = data().deepCopy(fields()[2].schema(), other.firstName);
+      if (isValidValue(fields()[2], other.fullName)) {
+        this.fullName = data().deepCopy(fields()[2].schema(), other.fullName);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.lastName)) {
-        this.lastName = data().deepCopy(fields()[3].schema(), other.lastName);
+      if (isValidValue(fields()[3], other.role)) {
+        this.role = data().deepCopy(fields()[3].schema(), other.role);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.role)) {
-        this.role = data().deepCopy(fields()[4].schema(), other.role);
+      if (isValidValue(fields()[4], other.warehouseId)) {
+        this.warehouseId = data().deepCopy(fields()[4].schema(), other.warehouseId);
         fieldSetFlags()[4] = true;
-      }
-      if (isValidValue(fields()[5], other.warehouseId)) {
-        this.warehouseId = data().deepCopy(fields()[5].schema(), other.warehouseId);
-        fieldSetFlags()[5] = true;
       }
     }
 
@@ -419,122 +387,82 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
     }
 
     /**
-      * Gets the value of the 'username' field.
+      * Gets the value of the 'email' field.
       * @return The value.
       */
-    public java.lang.String getUsername() {
-      return username;
+    public java.lang.String getEmail() {
+      return email;
     }
 
 
     /**
-      * Sets the value of the 'username' field.
-      * @param value The value of 'username'.
+      * Sets the value of the 'email' field.
+      * @param value The value of 'email'.
       * @return This builder.
       */
-    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder setUsername(java.lang.String value) {
+    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder setEmail(java.lang.String value) {
       validate(fields()[1], value);
-      this.username = value;
+      this.email = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'username' field has been set.
-      * @return True if the 'username' field has been set, false otherwise.
+      * Checks whether the 'email' field has been set.
+      * @return True if the 'email' field has been set, false otherwise.
       */
-    public boolean hasUsername() {
+    public boolean hasEmail() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'username' field.
+      * Clears the value of the 'email' field.
       * @return This builder.
       */
-    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder clearUsername() {
-      username = null;
+    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder clearEmail() {
+      email = null;
       fieldSetFlags()[1] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'firstName' field.
+      * Gets the value of the 'fullName' field.
       * @return The value.
       */
-    public java.lang.String getFirstName() {
-      return firstName;
+    public java.lang.String getFullName() {
+      return fullName;
     }
 
 
     /**
-      * Sets the value of the 'firstName' field.
-      * @param value The value of 'firstName'.
+      * Sets the value of the 'fullName' field.
+      * @param value The value of 'fullName'.
       * @return This builder.
       */
-    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder setFirstName(java.lang.String value) {
+    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder setFullName(java.lang.String value) {
       validate(fields()[2], value);
-      this.firstName = value;
+      this.fullName = value;
       fieldSetFlags()[2] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'firstName' field has been set.
-      * @return True if the 'firstName' field has been set, false otherwise.
+      * Checks whether the 'fullName' field has been set.
+      * @return True if the 'fullName' field has been set, false otherwise.
       */
-    public boolean hasFirstName() {
+    public boolean hasFullName() {
       return fieldSetFlags()[2];
     }
 
 
     /**
-      * Clears the value of the 'firstName' field.
+      * Clears the value of the 'fullName' field.
       * @return This builder.
       */
-    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder clearFirstName() {
-      firstName = null;
+    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder clearFullName() {
+      fullName = null;
       fieldSetFlags()[2] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'lastName' field.
-      * @return The value.
-      */
-    public java.lang.String getLastName() {
-      return lastName;
-    }
-
-
-    /**
-      * Sets the value of the 'lastName' field.
-      * @param value The value of 'lastName'.
-      * @return This builder.
-      */
-    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder setLastName(java.lang.String value) {
-      validate(fields()[3], value);
-      this.lastName = value;
-      fieldSetFlags()[3] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'lastName' field has been set.
-      * @return True if the 'lastName' field has been set, false otherwise.
-      */
-    public boolean hasLastName() {
-      return fieldSetFlags()[3];
-    }
-
-
-    /**
-      * Clears the value of the 'lastName' field.
-      * @return This builder.
-      */
-    public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder clearLastName() {
-      lastName = null;
-      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -553,9 +481,9 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
       * @return This builder.
       */
     public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder setRole(java.lang.String value) {
-      validate(fields()[4], value);
+      validate(fields()[3], value);
       this.role = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -564,7 +492,7 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
       * @return True if the 'role' field has been set, false otherwise.
       */
     public boolean hasRole() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[3];
     }
 
 
@@ -574,7 +502,7 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
       */
     public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder clearRole() {
       role = null;
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -593,9 +521,9 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
       * @return This builder.
       */
     public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder setWarehouseId(java.util.UUID value) {
-      validate(fields()[5], value);
+      validate(fields()[4], value);
       this.warehouseId = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -604,7 +532,7 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
       * @return True if the 'warehouseId' field has been set, false otherwise.
       */
     public boolean hasWarehouseId() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[4];
     }
 
 
@@ -614,7 +542,7 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
       */
     public com.anw.kafka.order.avro.model.RegisterUserRequestAvroModel.Builder clearWarehouseId() {
       warehouseId = null;
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -624,11 +552,10 @@ public class RegisterUserRequestAvroModel extends org.apache.avro.specific.Speci
       try {
         RegisterUserRequestAvroModel record = new RegisterUserRequestAvroModel();
         record.id = fieldSetFlags()[0] ? this.id : (java.util.UUID) defaultValue(fields()[0]);
-        record.username = fieldSetFlags()[1] ? this.username : (java.lang.String) defaultValue(fields()[1]);
-        record.firstName = fieldSetFlags()[2] ? this.firstName : (java.lang.String) defaultValue(fields()[2]);
-        record.lastName = fieldSetFlags()[3] ? this.lastName : (java.lang.String) defaultValue(fields()[3]);
-        record.role = fieldSetFlags()[4] ? this.role : (java.lang.String) defaultValue(fields()[4]);
-        record.warehouseId = fieldSetFlags()[5] ? this.warehouseId : (java.util.UUID) defaultValue(fields()[5]);
+        record.email = fieldSetFlags()[1] ? this.email : (java.lang.String) defaultValue(fields()[1]);
+        record.fullName = fieldSetFlags()[2] ? this.fullName : (java.lang.String) defaultValue(fields()[2]);
+        record.role = fieldSetFlags()[3] ? this.role : (java.lang.String) defaultValue(fields()[3]);
+        record.warehouseId = fieldSetFlags()[4] ? this.warehouseId : (java.util.UUID) defaultValue(fields()[4]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;

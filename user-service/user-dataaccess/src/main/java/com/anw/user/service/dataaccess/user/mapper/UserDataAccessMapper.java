@@ -1,7 +1,6 @@
 package com.anw.user.service.dataaccess.user.mapper;
 
 import com.anw.domain.valueobject.BaseId;
-import com.anw.domain.valueobject.Role;
 import com.anw.domain.valueobject.UserId;
 import com.anw.domain.valueobject.WarehouseId;
 import com.anw.user.service.dataaccess.user.entity.UserEntity;
@@ -15,10 +14,11 @@ public class UserDataAccessMapper {
     public User userEntityToUser(UserEntity userEntity) {
         return User.builder()
                 .userId(new UserId(userEntity.getId()))
-                .username(userEntity.getUsername())
+                .email(userEntity.getEmail())
                 .fullName(userEntity.getFullName())
                 .password(userEntity.getPassword())
-                .role(Role.valueOf(userEntity.getRole()))
+                .role(userEntity.getRole())
+                .profileImageUrl(userEntity.getProfileImageUrl())
                 .warehouseId(new WarehouseId(userEntity.getWarehouseId()))
                 .build();
     }
@@ -26,10 +26,11 @@ public class UserDataAccessMapper {
     public UserEntity userToUserEntity(User user) {
         return UserEntity.builder()
                 .id(user.getId().getValue())
-                .username(user.getUsername())
+                .email(user.getEmail())
                 .fullName(user.getFullName())
                 .password(user.getPassword())
-                .role(user.getRole().toString())
+                .role(user.getRole())
+                .profileImageUrl(user.getProfileImageUrl())
                 .warehouseId(
                         Optional.ofNullable(user.getWarehouseId())
                                 .map(BaseId::getValue)

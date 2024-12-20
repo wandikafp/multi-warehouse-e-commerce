@@ -1,44 +1,42 @@
 package com.anw.user.service.domain.mapper;
 
 import com.anw.domain.valueobject.Role;
-import com.anw.user.service.domain.dto.login.UserLoginCommand;
-import com.anw.user.service.domain.dto.login.UserLoginResponse;
-import com.anw.user.service.domain.dto.register.UserRegisterCommand;
-import com.anw.user.service.domain.dto.register.UserRegisterResponse;
+import com.anw.user.service.domain.dto.auth.UserLoginCommand;
+import com.anw.user.service.domain.dto.user.UserRegisterCommand;
+import com.anw.user.service.domain.dto.user.UserRegisterResponse;
 import com.anw.user.service.domain.entity.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class UserDataMapper {
     public User userRegisterCommandToUser(UserRegisterCommand userRegisterCommand) {
         return User.builder()
-                .username(userRegisterCommand.getUserName())
+                .email(userRegisterCommand.getEmail())
                 .password(userRegisterCommand.getPassword())
-                .firstName(userRegisterCommand.getFirstName())
-                .lastName(userRegisterCommand.getLastName())
-                .role(Role.valueOf(userRegisterCommand.getRole()))
+                .fullName(userRegisterCommand.getFullName())
+                .role(Optional.ofNullable(userRegisterCommand.getRole())
+                        .map(Role::valueOf)
+                        .orElse(Role.CUSTOMER))
                 .warehouseId(userRegisterCommand.getWarehouseId())
                 .build();
     }
 
     public User userLoginCommandToUser(UserLoginCommand userLoginCommand) {
         return User.builder()
-                .username(userLoginCommand.getUserName())
+                .email(userLoginCommand.getEmail())
                 .password(userLoginCommand.getPassword())
                 .build();
     }
 
     public UserRegisterResponse userToUserRegisterResponse(User user) {
         return UserRegisterResponse.builder()
-                .userName(user.getUsername())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .build();
-    }
-
-    public UserLoginResponse userToUserLoginResponse(User user) {
-        return UserLoginResponse.builder()
-                .userName(user.getUsername())
+                .id(user.getId().getValue().toString())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .role(user.getRole())
                 .build();
     }
 }

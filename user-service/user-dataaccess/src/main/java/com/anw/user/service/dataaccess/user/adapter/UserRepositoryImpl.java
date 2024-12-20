@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -25,10 +26,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getByUsername(User user) {
-        Optional<UserEntity> userEntity = userJpaRepository.getByUsername(user.getUsername());
+    public User findByEmail(String email) {
+        Optional<UserEntity> userEntity = userJpaRepository.findByEmail(email);
         if (userEntity.isEmpty()) {
-            throw new UserDomainException("username not found");
+            throw new UserDomainException("email not found");
+        }
+        return userDataAccessMapper.userEntityToUser(userEntity.get());
+    }
+
+    @Override
+    public User findById(UUID id) {
+        Optional<UserEntity> userEntity = userJpaRepository.findById(id);
+        if (userEntity.isEmpty()) {
+            throw new UserDomainException("id not found");
         }
         return userDataAccessMapper.userEntityToUser(userEntity.get());
     }

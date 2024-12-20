@@ -1,6 +1,6 @@
-package com.anw.user.service.domain.dto.login;
+package com.anw.user.service.domain.dto.auth;
 
-import com.anw.domain.valueobject.WarehouseId;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,8 +10,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UserLoginCommand {
+    @Email
     @NotNull
-    private String userName;
+    private String email;
     @NotNull
     private String password;
 }
