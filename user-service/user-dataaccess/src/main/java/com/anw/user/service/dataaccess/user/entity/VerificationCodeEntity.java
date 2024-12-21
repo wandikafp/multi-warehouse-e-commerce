@@ -1,15 +1,15 @@
 package com.anw.user.service.dataaccess.user.entity;
 
+import com.anw.dataaccess.entity.AbstractLongEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.RandomStringUtils;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class VerificationCodeEntity extends AbstractEntity {
+public class VerificationCodeEntity extends AbstractLongEntity {
     private String code;
     @Setter
     private boolean emailSent = false;

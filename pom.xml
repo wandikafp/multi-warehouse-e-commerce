@@ -13,8 +13,9 @@
         <module>common</module>
         <module>infrastructure</module>
         <module>warehouse-service</module>
-        <module>order-service</module>
+<!--        <module>order-service</module>-->
         <module>user-service</module>
+        <module>product-service</module>
     </modules>
 
     <parent>
@@ -41,6 +42,11 @@
             <dependency>
                 <groupId>com.anw</groupId>
                 <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.anw</groupId>
+                <artifactId>common-dataaccess</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

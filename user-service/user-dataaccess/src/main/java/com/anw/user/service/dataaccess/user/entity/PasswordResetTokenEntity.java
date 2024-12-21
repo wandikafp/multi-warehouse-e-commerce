@@ -1,5 +1,6 @@
 package com.anw.user.service.dataaccess.user.entity;
 
+import com.anw.dataaccess.entity.AbstractLongEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "password_reset_token")
 @Getter
 @NoArgsConstructor
-public class PasswordResetTokenEntity extends AbstractEntity {
+public class PasswordResetTokenEntity extends AbstractLongEntity {
     private String token;
     private boolean emailSent = false;
     private LocalDateTime expiresAt;

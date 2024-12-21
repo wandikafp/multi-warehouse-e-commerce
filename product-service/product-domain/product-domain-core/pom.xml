@@ -5,38 +5,29 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.anw</groupId>
-        <artifactId>user-service</artifactId>
+        <artifactId>product-domain</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-dataaccess</artifactId>
+    <artifactId>product-domain-core</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.anw</groupId>
-            <artifactId>user-application-service</artifactId>
+            <artifactId>common-domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.anw</groupId>
-            <artifactId>common-dataaccess</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
         </dependency>
     </dependencies>
 
@@ -47,9 +38,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <release>17</release>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -1,5 +1,6 @@
 package com.anw.user.service.dataaccess.user.entity;
 
+import com.anw.dataaccess.entity.AbstractLongEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-public class UserConnectedAccountEntity extends AbstractEntity {
+public class UserConnectedAccountEntity extends AbstractLongEntity {
     private String provider;
     private String providerId;
     private LocalDateTime connectedAt;
