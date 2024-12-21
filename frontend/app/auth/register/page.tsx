@@ -22,7 +22,7 @@ export default function RegisterPage() {
         </Link>
       </p>
 
-      {/* <p className="px-8 text-sm text-center text-muted-foreground">
+      <p className="px-8 text-sm text-center text-muted-foreground">
         By creating an account, you agree to our{" "}
         <Link
           href="/terms"
@@ -38,7 +38,7 @@ export default function RegisterPage() {
           Privacy Policy
         </Link>
         .
-      </p> */}
+      </p>
     </div>
   );
 }

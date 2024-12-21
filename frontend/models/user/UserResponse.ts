@@ -1,18 +1,17 @@
 export interface UserResponse {
     id: number;
     role: Role;
-    firstName?: string;
-    lastName?: string;
+    fullName?: string;
     email: string;
-    // profileImageUrl?: string;
-    // connectedAccounts: ConnectedAccount[];
-    // authorities: string[]
+    profileImageUrl?: string;
+    connectedAccounts: ConnectedAccount[];
+    authorities: string[]
   }
   
-//   interface ConnectedAccount {
-//     provider: 'google' | 'github' | 'facebook' | 'okta' ;
-//     connectedAt: string;
-//   }
+  interface ConnectedAccount {
+    provider: 'google' | 'facebook' | 'twitter';
+    connectedAt: string;
+  }
   
   export enum Role {
     USER = "USER",

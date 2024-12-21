@@ -12,3 +12,15 @@ export const userClient = Axios.create({
   xsrfCookieName: 'XSRF-TOKEN',
   withXSRFToken: true,
 });
+
+export const mockClient = Axios.create({
+  baseURL: process.env.MOCK!, 
+  headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+  },
+  withCredentials: true,
+  xsrfCookieName: 'XSRF-TOKEN',
+  withXSRFToken: true,
+});

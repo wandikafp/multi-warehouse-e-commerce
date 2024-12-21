@@ -22,8 +22,7 @@ const registerSchema = z
     email: z.string().email(),
     password: z.string().min(8),
     passwordConfirmation: z.string().min(8),
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
+    fullName: z.string().optional(),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords do not match",
@@ -123,25 +122,16 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
               </small>
             )}
 
-            <Label htmlFor="firstName">First name</Label>
+            <Label htmlFor="firstName">Full name</Label>
             <Input
               id="firstName"
               type="text"
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
-              {...register("firstName")}
+              {...register("fullName")}
             />
 
-            <Label htmlFor="lastName">Last name</Label>
-            <Input
-              id="lastName"
-              type="text"
-              autoCapitalize="none"
-              autoCorrect="off"
-              disabled={isLoading}
-              {...register("lastName")}
-            />
           </div>
 
           <ErrorFeedback data={errors} />

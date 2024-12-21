@@ -1,3 +1,5 @@
+"use client"
+
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils";
 import "./globals.css";
@@ -5,6 +7,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/navbar";
 import Footer from "./components/Footer";
+import { useEffect } from "react";
+import { userClient } from "@/lib/httpClient";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -16,6 +20,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useEffect(() => {
+    // Initialize the csrf token
+    userClient.get("/api/auth/csrf")
+  }, []);
+
   return (
     <html lang="en">
       <body

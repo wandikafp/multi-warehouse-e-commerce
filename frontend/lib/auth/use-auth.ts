@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { userClient } from "../httpClient";
+import { userClient, mockClient } from "../httpClient";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import { UserResponse } from "@/models/user/UserResponse";
 

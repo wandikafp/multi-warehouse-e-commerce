@@ -23,7 +23,7 @@ export default function LoginPage() {
         </Link>
       </p>
 
-      {/* <p className="flex justify-center gap-x-2">
+      <p className="flex justify-center gap-x-2">
         Forgot your password?
         <Link href="/auth/forgot-password" className="underline">
           Request password reset
@@ -46,7 +46,7 @@ export default function LoginPage() {
           Privacy Policy
         </Link>
         .
-      </p> */}
+      </p>
     </div>
   );
 }
