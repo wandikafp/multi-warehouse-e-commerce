@@ -1,9 +1,7 @@
 package com.anw.user.service.domain;
 
-import com.anw.user.service.domain.dto.user.UserRegisterCommand;
-import com.anw.user.service.domain.dto.user.UserRegisterResponse;
-import com.anw.user.service.domain.dto.user.UserUpdateCommand;
-import com.anw.user.service.domain.dto.user.UserUpdatePasswordCommand;
+import com.anw.domain.dto.PagedResponse;
+import com.anw.user.service.domain.dto.user.*;
 import com.anw.user.service.domain.ports.input.service.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,5 +38,10 @@ public class UserApplicationsServiceImpl implements UserApplicationService {
     @Override
     public UserRegisterResponse updatePassword(UserUpdatePasswordCommand userRegisterCommand) {
         return null;
+    }
+
+    @Override
+    public PagedResponse<UserBaseResponse> getUsers(int page, int size) {
+        return userCommandHandler.getUsers(page, size);
     }
 }

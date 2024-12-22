@@ -1,11 +1,13 @@
 package com.anw.user.service.application.rest;
 
+import com.anw.domain.dto.PagedResponse;
 import com.anw.user.service.domain.dto.user.*;
 import com.anw.user.service.domain.ports.input.service.UserApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -62,4 +64,14 @@ public class UserController {
 //        UserRegisterResponse user = userApplicationService.updateProfilePicture(file);
 //        return ResponseEntity.ok(user);
 //    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<PagedResponse<UserBaseResponse>> getUsers(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PagedResponse<UserBaseResponse> users = userApplicationService.getUsers(page, size);
+        return ResponseEntity.ok(users);
+    }
 }

@@ -1,5 +1,6 @@
 package com.anw.user.service.dataaccess.user.adapter;
 
+import com.anw.domain.dto.PagedResponse;
 import com.anw.user.service.dataaccess.user.entity.UserEntity;
 import com.anw.user.service.dataaccess.user.mapper.UserDataAccessMapper;
 import com.anw.user.service.dataaccess.user.repository.UserJpaRepository;
@@ -8,6 +9,9 @@ import com.anw.user.service.domain.exception.UserDomainException;
 import com.anw.user.service.domain.ports.output.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -41,5 +45,12 @@ public class UserRepositoryImpl implements UserRepository {
             throw new UserDomainException("id not found");
         }
         return userDataAccessMapper.userEntityToUser(userEntity.get());
+    }
+
+    @Override
+    public PagedResponse<User> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<UserEntity> users = userJpaRepository.findAll(pageable);
+        return new PagedResponse<>(users.map(userDataAccessMapper::userEntityToUser));
     }
 }

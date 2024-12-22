@@ -2,8 +2,10 @@ package com.anw.user.service.domain.mapper;
 
 import com.anw.domain.valueobject.Role;
 import com.anw.user.service.domain.dto.auth.UserLoginCommand;
+import com.anw.user.service.domain.dto.user.UserBaseResponse;
 import com.anw.user.service.domain.dto.user.UserRegisterCommand;
 import com.anw.user.service.domain.dto.user.UserRegisterResponse;
+import com.anw.user.service.domain.dto.user.UserResponse;
 import com.anw.user.service.domain.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,15 @@ public class UserDataMapper {
 
     public UserRegisterResponse userToUserRegisterResponse(User user) {
         return UserRegisterResponse.builder()
+                .id(user.getId().getValue().toString())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .role(user.getRole())
+                .build();
+    }
+
+    public UserBaseResponse userToUserBaseResponse(User user) {
+        return UserBaseResponse.builder()
                 .id(user.getId().getValue().toString())
                 .email(user.getEmail())
                 .fullName(user.getFullName())

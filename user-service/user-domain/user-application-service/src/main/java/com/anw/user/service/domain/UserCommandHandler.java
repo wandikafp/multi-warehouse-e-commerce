@@ -1,5 +1,7 @@
 package com.anw.user.service.domain;
 
+import com.anw.domain.dto.PagedResponse;
+import com.anw.user.service.domain.dto.user.UserBaseResponse;
 import com.anw.user.service.domain.dto.user.UserRegisterCommand;
 import com.anw.user.service.domain.dto.user.UserRegisterResponse;
 import com.anw.user.service.domain.dto.user.UserUpdatePasswordCommand;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -86,5 +89,25 @@ public class UserCommandHandler {
         User user = passwordResetToken.getUser();
         user.updatePassword(request.getPassword());
         userRepository.save(user);
+    }
+
+    @Transactional
+    public UserRegisterResponse updatePassword(UserUpdatePasswordCommand userRegisterCommand) {
+//        User user = userRepository.findById(userRegisterCommand.getUserId())
+//                .orElseThrow(() -> new UserDomainException("User not found"));
+//        user.updatePassword(userRegisterCommand.getPassword());
+//        return userDataMapper.userToUserRegisterResponse(user);
+        return null;
+    }
+
+    @Transactional
+    public PagedResponse<UserBaseResponse> getUsers(int page, int size) {
+        PagedResponse<User> users = userRepository.findAll(page, size);
+        return new PagedResponse<>(users.getPage(), users.getSize(), users.getTotalElements(), users.getTotalPages(),
+                users.getData()
+                        .stream()
+                        .map(userDataMapper::userToUserBaseResponse)
+                        .collect(Collectors.toList()));
+
     }
 }
