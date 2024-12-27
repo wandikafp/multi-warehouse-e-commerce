@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/navbar";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
-import { userClient } from "@/lib/httpClient";
+import { userService } from "@/lib/services";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -20,10 +20,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    // Initialize the csrf token
-    userClient.get("/api/auth/csrf")
-  }, []);
+  // useEffect(() => {
+  //   // Initialize the csrf token
+  //   userClient.get("/api/auth/csrf")
+  // }, []);
 
   return (
     <html lang="en">

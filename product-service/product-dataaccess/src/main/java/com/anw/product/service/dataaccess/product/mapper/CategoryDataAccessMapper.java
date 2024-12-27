@@ -12,6 +12,7 @@ public class CategoryDataAccessMapper {
                 .id(category.getId())
                 .name(category.getName())
                 .description(category.getDescription())
+                .icon(category.getIcon())
                 .build();
     }
 
@@ -20,6 +21,7 @@ public class CategoryDataAccessMapper {
                 .categoryId(categoryEntity.getId())
                 .name(categoryEntity.getName())
                 .description(categoryEntity.getDescription())
+                .icon(categoryEntity.getIcon())
                 .build();
     }
 }

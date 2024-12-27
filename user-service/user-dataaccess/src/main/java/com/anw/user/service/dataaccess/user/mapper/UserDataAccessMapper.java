@@ -5,6 +5,7 @@ import com.anw.domain.valueobject.UserId;
 import com.anw.domain.valueobject.WarehouseId;
 import com.anw.user.service.dataaccess.user.entity.UserEntity;
 import com.anw.user.service.domain.entity.User;
+import com.anw.user.service.domain.entity.VerificationCode;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -20,6 +21,13 @@ public class UserDataAccessMapper {
                 .role(userEntity.getRole())
                 .profileImageUrl(userEntity.getProfileImageUrl())
                 .warehouseId(new WarehouseId(userEntity.getWarehouseId()))
+                .verificationCode(Optional.ofNullable(userEntity.getVerificationCodeEntity())
+                        .map(verificationCodeEntity -> VerificationCode.builder()
+                                .id(verificationCodeEntity.getId())
+                                .code(verificationCodeEntity.getCode())
+                                .emailSent(verificationCodeEntity.isEmailSent())
+                                .build())
+                        .orElse(null))
                 .build();
     }
 

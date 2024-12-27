@@ -20,6 +20,17 @@ public class UserResponse {
     private List<ConnectedAccountResponse> connectedAccounts = new ArrayList<>();
     private List<String> authorities = new ArrayList<>();
 
+    public UserResponse(User user) {
+        this.id = user.getId().getValue().toString();
+        this.role = user.getRole();
+        this.fullName = user.getFullName();
+        this.email = user.getEmail();
+        this.profileImageUrl = user.getProfileImageUrl();
+        user.getConnectedAccounts().forEach((provider) -> {
+            this.connectedAccounts.add(new ConnectedAccountResponse(provider.getProvider(), provider.getConnectedAt()));
+        });
+    }
+
     public UserResponse(User user, Collection<? extends GrantedAuthority> authorities) {
         this.id = user.getId().getValue().toString();
         this.role = user.getRole();

@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { userClient, mockClient } from "../httpClient";
+import { userService } from "../services";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import { UserResponse } from "@/models/user/UserResponse";
 
@@ -16,44 +16,52 @@ export const useAuthGuard = ({
 }: AuthProps) => {
   const router = useRouter();
 
+  // Create a fetcher to include the JWT token in requests
+  const fetcher = (url: string) => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) throw new Error("Unauthorized");
+    return userService
+      .get<UserResponse>(url, {
+        headers: { Authorization: `Bearer ${jwtToken}` },
+      })
+      .then((res) => res.data);
+  };
+
   const {
     data: user,
     error,
     mutate,
-  } = useSWR("/api/auth/me", () =>
-    userClient.get<UserResponse>("/api/auth/me").then((res) => res.data)
-  );
+  } = useSWR("/api/auth/me", fetcher);
 
   const login = async ({
     onError,
     props,
   }: {
     onError: (errors: HttpErrorResponse | undefined) => void;
-    props: any;
+    props: { email: string; password: string };
   }) => {
     onError(undefined);
-    await csrf();
-    userClient
-      .post<HttpErrorResponse>("/api/auth/login", {
+    try {
+      const res = await userService.post<{ token: string }>("/api/auth/login", {
         email: props.email,
         password: props.password,
-      })
-      .then(() => mutate())
-      .catch((err) => {
-        const errors = err.response.data as HttpErrorResponse;
-        onError(errors);
       });
+
+      // Save the JWT token in local storage
+      localStorage.setItem("jwtToken", res.data.token);
+
+      // Revalidate the user session
+      mutate();
+    } catch (err) {
+      const errors = (err as any).response?.data as HttpErrorResponse;
+      onError(errors);
+    }
   };
 
-  const csrf = async () => {
-    await userClient.get("/api/auth/csrf")
-  }
-
   const logout = async () => {
-    if (!error) {
-      await userClient.post("/api/auth/logout").then(() => mutate());
-    }
-
+    // Remove the JWT token from local storage
+    localStorage.removeItem("jwtToken");
+    mutate(undefined, false); // Clear user data from SWR
     window.location.pathname = "/auth/login";
   };
 
@@ -63,7 +71,7 @@ export const useAuthGuard = ({
       router.push(redirectIfAuthenticated);
     }
 
-    // If middleware is 'auth' and we have an error, logout
+    // If middleware is 'auth' and we have an error, redirect to login
     if (middleware === "auth" && error) {
       logout();
     }
@@ -73,6 +81,6 @@ export const useAuthGuard = ({
     user,
     login,
     logout,
-    mutate
+    mutate,
   };
 };

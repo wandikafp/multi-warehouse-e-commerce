@@ -18,6 +18,10 @@
     <dependencies>
         <dependency>
             <groupId>com.anw</groupId>
+            <artifactId>common-dataaccess</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.anw</groupId>
             <artifactId>product-application-service</artifactId>
         </dependency>
         <dependency>

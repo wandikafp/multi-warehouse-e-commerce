@@ -20,9 +20,10 @@ public class User extends AggregateRoot<UserId> implements UserDetails {
     private final String email;
     @Setter
     private String password;
-    private final String fullName;
+    private String fullName;
     @Setter
     private boolean verified;
+    @Setter
     private String profileImageUrl;
     private final Role role;
     private final WarehouseId warehouseId;
@@ -40,7 +41,8 @@ public class User extends AggregateRoot<UserId> implements UserDetails {
                      String profileImageUrl,
                      boolean verified,
                      Role role,
-                     WarehouseId warehouseId) {
+                     WarehouseId warehouseId,
+                     VerificationCode verificationCode) {
         super.setId(userId);
         this.email = email;
         this.fullName = fullName;
@@ -49,6 +51,7 @@ public class User extends AggregateRoot<UserId> implements UserDetails {
         this.verified = verified;
         this.role = role;
         this.warehouseId = warehouseId;
+        this.verificationCode = verificationCode;
     }
 
     public void initializeUser() {
@@ -73,6 +76,11 @@ public class User extends AggregateRoot<UserId> implements UserDetails {
 //        this.lastName = request.getLastName();
 //    }
 //
+
+    public void updateBasicDetails(String fullName) {
+        this.fullName = fullName;
+    }
+
     public void updatePassword(String newPassword) {
         PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
         this.password = passwordEncoder.encode(newPassword);

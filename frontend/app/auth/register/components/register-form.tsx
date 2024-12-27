@@ -5,7 +5,7 @@ import SuccessFeedback from "@/components/success-feedback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { userClient } from "@/lib/httpClient";
+import { userService } from "@/lib/services";
 import { cn } from "@/lib/utils";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,7 +41,7 @@ export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
     setErrors(undefined);
     setSuccess(false);
     setIsLoading(true);
-    userClient
+    userService
       .post("/api/users", data)
       .then(() => {
         toast.success("Account created successfully");

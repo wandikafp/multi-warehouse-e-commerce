@@ -1,5 +1,5 @@
 export interface UserResponse {
-    id: number;
+    id: string;
     role: Role;
     fullName?: string;
     email: string;
@@ -14,6 +14,6 @@ export interface UserResponse {
   }
   
   export enum Role {
-    USER = "USER",
-    ADMIN = "ADMIN"
+    USER = "CUSTOMER",
+    SUPER_ADMIN = "SUPER_ADMIN"
   }

@@ -1,13 +1,13 @@
 package com.anw.user.service.domain.dto.auth;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class UserLoginResponse {
     private String token;
-    private Long expiresIn;
+    private String refreshToken;
 }

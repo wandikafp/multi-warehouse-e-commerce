@@ -5,7 +5,7 @@ import SuccessFeedback from "@/components/success-feedback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { userClient } from "@/lib/httpClient";
+import { userService } from "@/lib/services";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -35,7 +35,7 @@ export function ResetPasswordForm() {
   const token = useSearchParams().get("token");
 
   function onSubmit(data: Schema) {
-    userClient
+    userService
       .patch("/api/users/reset-password", data)
       .then(() => {
         setSuccess(true);

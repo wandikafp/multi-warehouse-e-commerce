@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuthGuard } from "@/lib/auth/use-auth";
-import { userClient } from "@/lib/httpClient";
+import { userService } from "@/lib/services";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
@@ -40,8 +40,12 @@ export default function UpdatePasswordForm() {
 
   const onSubmit = (data: Schema) => {
     setErrors(undefined);
-    userClient
-      .patch("/api/users/password", data)
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) throw new Error("Unauthorized");
+    userService
+      .patch("/api/users/password", data, {
+        headers: { Authorization: `Bearer ${jwtToken}` },
+      })
       .then(() => {
         toast.success("Password updated successfully");
         mutate();

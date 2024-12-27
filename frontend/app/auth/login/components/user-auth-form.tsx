@@ -10,16 +10,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { useAuthGuard } from "@/lib/auth/use-auth";
+import { login } from "@/lib/auth/use-auth";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
-import ErrorFeedback from "@/components/error-feedback";
 import Link from "next/link";
-import { FaFacebook, FaGithub, FaGoogle, FaTwitter} from "react-icons/fa";
+import { FaFacebook, FaGoogle, FaTwitter} from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const loginFormSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(2),
 });
 
 type Schema = z.infer<typeof loginFormSchema>;
@@ -27,9 +28,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const {login} = useAuthGuard({middleware: 'guest', redirectIfAuthenticated: '/profile'});
   const [errors, setErrors] = React.useState<HttpErrorResponse | undefined>(undefined);
+  const router = useRouter();
 
   async function onSubmit(data: Schema) {
-    login({
+    const res = await login({
       onError: (errors) => {
         setErrors(errors)
         if (errors) {
@@ -46,7 +48,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   });
 
   function getProviderLoginUrl(provider: 'google' | 'facebook' | 'twitter') {
-    return process.env.NEXT_PUBLIC_BASE_URL + `/oauth2/authorization/${provider}`
+    return process.env.NEXT_PUBLIC_USER_SERVICE_BASE_URL + `/oauth2/authorization/${provider}`
   }
 
   return (
@@ -87,8 +89,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           </div>
 
-          <ErrorFeedback data={errors} />
-          
           <Button disabled={isLoading} type="submit">
             {isLoading && 'Logging in...'}
             Sign In with Email

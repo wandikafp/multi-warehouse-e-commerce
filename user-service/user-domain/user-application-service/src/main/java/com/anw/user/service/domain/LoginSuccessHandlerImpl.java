@@ -6,7 +6,6 @@ import com.anw.user.service.domain.entity.User;
 import com.anw.user.service.domain.entity.UserConnectedAccount;
 import com.anw.user.service.domain.ports.output.repository.ConnectedAccountRepository;
 import com.anw.user.service.domain.ports.output.repository.UserRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @Slf4j
@@ -35,7 +29,6 @@ import java.util.Objects;
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
     private final ConnectedAccountRepository connectedAccountRepository;
     private final UserRepository userRepository;
-    private final JwtEncoder jwtEncoder;
     @Setter
     private UserServiceConfig userServiceConfig;
 
@@ -97,17 +90,5 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
         user = userRepository.save(user);
         connectedAccountRepository.save(connectedAccount);
         return user;
-    }
-
-    private String generateToken(String username) {
-        Instant now = Instant.now();
-        JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("self")
-                .issuedAt(now)
-                .expiresAt(now.plus(1, ChronoUnit.HOURS))
-                .subject(username)
-                .claim("scope", "ROLE_USER")
-                .build();
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 }

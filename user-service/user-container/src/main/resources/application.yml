@@ -1,5 +1,8 @@
 server:
   port: 8182
+  servlet:
+    session:
+      timeout: 30m
 
 logging:
   level:
@@ -28,15 +31,17 @@ spring:
     driver-class-name: org.postgresql.Driver
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 465
     username: syukwisjuli16@gmail.com
-    password: pzgy wbrq iicn ellq
+    password: djknsfbonkdjgukz
     properties:
       mail:
         smtp:
-          auth: true
-          starttls:
+#          auth: true
+          ssl:
             enable: true
+          starttls:
+            enable: false
   security:
     oauth2:
       client:
@@ -55,6 +60,7 @@ spring:
 #    init:
 #      platform: postgres
 #      mode: always
+# J8QQ68LN5TXJE2TX8M51NYFP
 
 management:
   endpoints:
@@ -105,12 +111,10 @@ kafka-consumer-config:
 user-service:
   register-user-topic-name: register-user
   application-name: multi-warehouse-e-commerce
-  base-url: http://localhost:8080
+  base-url: http://localhost:8182
   allowed-origins: http://localhost:3000
   login-page-url: ${app.base-url}/auth/login
   login-success-url: ${app.base-url}/auth/login-success
-  jwt-secret: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
-  jwt-issuer: http://localhost:8182
 
 org:
   jobrunr:
@@ -122,3 +126,9 @@ org:
 jwt:
   secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
   expiration-time: 3600000
+
+gcp-config:
+  config-file: gcp-account-file.json
+  project-id: wandika-project
+  bucket-id: multi-warehouse-e-commerce
+  directory-name: profile-picture-dev

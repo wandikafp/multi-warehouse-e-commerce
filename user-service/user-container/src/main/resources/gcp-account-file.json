@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "wandika-project",
+  "private_key_id": "ad881346b793d0f19af5039376ac6a3a8a569172",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3x3vygtV2hIr/\noycaCVN3Cf8Trw6EIbvrKsSBeocOtz/xug0ka+zmNjJmucfl0Aeen2HZAtZcNQsT\nmTz4uV+EFyf+d6hJBaPvBOE8106kAKuj/8YfDRewrW6bFkbuhKC9AEB1oNAfsnSJ\ndIk8RjlsB8OB1F+2+a6JwNs5cBOWVW77h8bT9zKtLHKArXnoy/fUBqQKvKnwRYQI\nNOguW+dgVTftSiRHCYAQtckQQIjwcKUrxE+q/q4WyeA2K4FIHGVQWYRcNpwdooEB\nTZoEZwfx6YeRKD3qpm4EgJcxBucyKE3TOzjt4GqS3hqRbGiAFwitqFJGVdDW0cG1\nnJtjH3EhAgMBAAECggEADW/HJV36rKWk/ASgitjJT3GQ3FsqNolSeGLLtAosIblO\nmL/ZNVaAUmL+bS0cHmm6Hn2mS8i9uRQi8S99AIc2vC06CvLfGcFEN4K/bRFY4JWX\nKj08uqLca1oWAiTI0g7EXQBnT7JbeFXPcdVUmCGSRTT0G5cjDSyIKrr8/3mtFPEE\n0Gjg4sD4pEaDCwmfn+Ao0L9utD8nqs4SB/V48FxQCYiXInszExjCsVsbMW4FxT9s\nukXzOmT+UE/9YwkEz3VqEKct0hlENxUZ4qRILs6/DGWWIfbq5XMkkMCT13+owGS7\npaJOWZdenSHMoibT3qhi8UnUMlsZbY1cf6zYQ4cCWQKBgQDWVqynrNmCtOnVX4oN\nBySCtBfIRvmle8VcP9OC7bD/I7LUIAtqCulP85xsYUsD+rsP0qqwYtcApUMYvNcp\npC/IE6ZCMSbFdSCoCwRxu0N3NA/rtf6a2wTuJxjpRb3CX0qyPhy0AyWonzOyGaYN\n96CjCXfXLzbbxXyVu23acO+5iwKBgQDbgDM/3qJTN+Ij1PV22HnsHHqm/wJM/U8F\nrGlMJqKjBnf/UstT8E+p4LzMJVoh/PnB4SGewCPK/lfoamQZz4eptsnzQ2i+z6xu\nL626CjzrNPq0hUKjMOcq0KDbac5FJ6DOTAioZdcFKEeaMz8N7NO+j5xjRgDQkw26\nCYpfj6RdgwKBgHZWHjbo+KHwblWOzPJKaj77XVIG1Zgm0J0Q5B8aSiljNT1mf8bJ\nRW0N6+Puh3MoABVJU1HVEC1cEMJcqFJmQrctGhLbfjNwalo80vRT1ni+treFoI8w\nsvUlgtxv08e3ws7L+h7syeLiGrGO9Z4qhHbfKFoWyCvoSdOFSq5awg/nAoGBAMqj\n/SxOxf8bzVsVJJPWYCC5XgZD0ITxKf3r4L4bwPPOagO+FNZmObV0M/gn16EfIhh6\nVgZwDds+mjuH1Of7LpxgkupQ5ieaI+8Jd1IUV48xNu5nRFDSOefN+WL2uCYh4pPx\nn+CPPEWXnRrfiqu5YvY/MLp5ixEDYZ3JZwS34J8vAoGABYYnNg06DieVkv+Uueyb\n6pQtcCjqfIqfZ+eXTqa/rKg0oNIP3N/z6PhXGB1uXMZjxDHhnKqVZcMcDjxIqhzM\nNBXtSW+tCFa08Tq1qZiAakCztEYc3qMMxVpQVQP2K5dC/sFXV3aLtTTJm/U2y2Cw\nXgzBi8Qjg+23zo5bBOIV1F0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "wandika-project@appspot.gserviceaccount.com",
+  "client_id": "106538570427579402423",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wandika-project%40appspot.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

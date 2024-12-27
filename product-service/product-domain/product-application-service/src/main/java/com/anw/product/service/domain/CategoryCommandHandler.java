@@ -28,15 +28,15 @@ public class CategoryCommandHandler {
         if (categoryRepository.findByName(category.getName()).isPresent()) {
             throw new IllegalArgumentException("Category with the same name already exists.");
         }
+        category.initializeCategory();
         return categoryRepository.save(category);
     }
 
     @Transactional
-    public Category updateCategory(UUID categoryId, Category category) {
-        if (categoryRepository.findByName(category.getName()).isPresent()) {
-            throw new IllegalArgumentException("Category with the same name already exists.");
+    public Category updateCategory(Category category) {
+        if (categoryRepository.findById(category.getId()).isEmpty()) {
+            throw new IllegalArgumentException("Category does not exists.");
         }
-        category.setId(categoryId);
         return categoryRepository.save(category);
     }
 

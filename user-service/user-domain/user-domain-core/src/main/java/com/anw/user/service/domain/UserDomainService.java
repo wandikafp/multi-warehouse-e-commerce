@@ -7,4 +7,5 @@ import com.anw.user.service.domain.event.UserRegisteredEvent;
 public interface UserDomainService {
     UserRegisteredEvent registerUser(User user, DomainEventPublisher<UserRegisteredEvent>
                                                     orderCreatedEventDomainEventPublisher);
+    boolean validateUpdateProfileImage(byte[] file, String fileName);
 }

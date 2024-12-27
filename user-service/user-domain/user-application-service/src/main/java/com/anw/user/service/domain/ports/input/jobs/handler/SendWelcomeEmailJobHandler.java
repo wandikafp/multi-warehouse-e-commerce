@@ -35,6 +35,8 @@ public class SendWelcomeEmailJobHandler implements JobRequestHandler<SendWelcome
         User user = Optional.ofNullable(userRepository.findById(sendWelcomEmailJob.getUserId()))
                 .orElseThrow(() -> new RuntimeException("User not found"));
         log.info("Sending welcome email to user with id: {}", sendWelcomEmailJob.getUserId());
+        log.info(user.getVerificationCode().getCode());
+        log.info("email sent? : {}", user.getVerificationCode().isEmailSent());
         if (user.getVerificationCode() != null && !user.getVerificationCode().isEmailSent()) {
             sendWelcomeEmail(user, user.getVerificationCode());
         }

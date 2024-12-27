@@ -2,16 +2,17 @@ package com.anw.product.service.domain;
 
 import com.anw.product.service.domain.entity.Category;
 import com.anw.product.service.domain.ports.input.service.CategoryApplicationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
+@RequiredArgsConstructor
 public class CategoryApplicationServiceImpl implements CategoryApplicationService {
     private final CategoryCommandHandler categoryCommandHandler;
-
-    public CategoryApplicationServiceImpl(CategoryCommandHandler categoryCommandHandler) {
-        this.categoryCommandHandler = categoryCommandHandler;
-    }
 
     @Override
     public List<Category> getAllCategories() {
@@ -29,8 +30,8 @@ public class CategoryApplicationServiceImpl implements CategoryApplicationServic
     }
 
     @Override
-    public Category updateCategory(UUID categoryId, Category category) {
-        return categoryCommandHandler.updateCategory(categoryId, category);
+    public Category updateCategory(Category category) {
+        return categoryCommandHandler.updateCategory(category);
     }
 
     @Override

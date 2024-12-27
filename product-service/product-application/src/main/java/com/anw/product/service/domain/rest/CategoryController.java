@@ -1,7 +1,9 @@
 package com.anw.product.service.domain.rest;
 
-import com.anw.product.service.domain.CategoryApplicationServiceImpl;
 import com.anw.product.service.domain.entity.Category;
+import com.anw.product.service.domain.ports.input.service.CategoryApplicationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,37 +13,36 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/categories")
+@RequiredArgsConstructor
+@Slf4j
 public class CategoryController {
-    private final CategoryApplicationServiceImpl categoryApplicationServiceImpl;
-
-    public CategoryController(CategoryApplicationServiceImpl categoryApplicationServiceImpl) {
-        this.categoryApplicationServiceImpl = categoryApplicationServiceImpl;
-    }
+    private final CategoryApplicationService categoryApplicationService;
 
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.ok(categoryApplicationServiceImpl.getAllCategories());
+        return ResponseEntity.ok(categoryApplicationService.getAllCategories());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable UUID id) {
-        Optional<Category> category = categoryApplicationServiceImpl.getCategoryById(id);
+        Optional<Category> category = categoryApplicationService.getCategoryById(id);
         return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryApplicationServiceImpl.createCategory(category));
+        return ResponseEntity.ok(categoryApplicationService.createCategory(category));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable UUID id, @RequestBody Category category) {
-        return ResponseEntity.ok(categoryApplicationServiceImpl.updateCategory(id, category));
+    @PutMapping
+    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
+        log.info("Updating category with id: {}", category.getId());
+        return ResponseEntity.ok(categoryApplicationService.updateCategory(category));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
-        categoryApplicationServiceImpl.deleteCategory(id);
+        categoryApplicationService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
 }

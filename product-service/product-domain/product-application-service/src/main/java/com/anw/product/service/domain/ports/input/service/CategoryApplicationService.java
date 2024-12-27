@@ -9,6 +9,6 @@ public interface CategoryApplicationService {
     List<Category> getAllCategories();
     Optional<Category> getCategoryById(UUID categoryId);
     Category createCategory(Category category);
-    Category updateCategory(UUID categoryId, Category category);
+    Category updateCategory(Category category);
     void deleteCategory(UUID categoryId);
 }

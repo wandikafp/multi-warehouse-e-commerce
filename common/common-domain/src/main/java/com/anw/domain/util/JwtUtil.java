@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +18,13 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret-key}")
     private String secret;
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.expiration-time:3600000}")
     private Long expiration;
 
-    public String extractUsername(String token) {
+    public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -59,9 +60,9 @@ public class JwtUtil {
                 .compact();
     }
 
-    public boolean isTokenValid(String token, String username) {
-        final String tokenUsername = extractUsername(token);
-        return (tokenUsername.equals(username)) && !isTokenExpired(token);
+    public boolean isTokenValid(String token, String email) {
+        final String tokenUserEmail = extractUserEmail(token);
+        return (tokenUserEmail.equals(email)) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {

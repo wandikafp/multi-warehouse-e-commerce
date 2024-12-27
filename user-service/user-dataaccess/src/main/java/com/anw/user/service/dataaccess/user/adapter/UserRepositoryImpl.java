@@ -1,6 +1,7 @@
 package com.anw.user.service.dataaccess.user.adapter;
 
 import com.anw.domain.dto.PagedResponse;
+import com.anw.domain.valueobject.Role;
 import com.anw.user.service.dataaccess.user.entity.UserEntity;
 import com.anw.user.service.dataaccess.user.mapper.UserDataAccessMapper;
 import com.anw.user.service.dataaccess.user.repository.UserJpaRepository;
@@ -36,6 +37,12 @@ public class UserRepositoryImpl implements UserRepository {
             throw new UserDomainException("email not found");
         }
         return userDataAccessMapper.userEntityToUser(userEntity.get());
+    }
+
+    @Override
+    public User findByRole(Role role) {
+        Optional<UserEntity> userEntity = userJpaRepository.findByRole(role);
+        return userEntity.map(userDataAccessMapper::userEntityToUser).orElse(null);
     }
 
     @Override

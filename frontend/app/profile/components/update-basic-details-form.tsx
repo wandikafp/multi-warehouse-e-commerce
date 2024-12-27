@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuthGuard } from "@/lib/auth/use-auth";
-import { userClient } from "@/lib/httpClient";
+import { userService } from "@/lib/services";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
@@ -31,8 +31,12 @@ export default function UpdateBasicDetailsForm() {
 
   const onSubmit = (data: Schema) => {
     setErrors(undefined);
-    userClient
-      .put("/api/users/" + user!.id, data)
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) throw new Error("Unauthorized");
+    userService
+      .put("/api/users/" + user!.id, data, {
+        headers: { Authorization: `Bearer ${jwtToken}` },
+      })
       .then(() => {
         toast.success("Profile updated successfully");
         mutate();
@@ -69,7 +73,7 @@ export default function UpdateBasicDetailsForm() {
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First name</FormLabel>
+                <FormLabel>Full name</FormLabel>
                 <FormControl>
                   <Input {...field}></Input>
                 </FormControl>

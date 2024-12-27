@@ -1,15 +1,19 @@
 package com.anw.user.service.application.rest;
 
 import com.anw.domain.dto.PagedResponse;
+import com.anw.user.service.domain.UserCommandHandler;
 import com.anw.user.service.domain.dto.user.*;
 import com.anw.user.service.domain.ports.input.service.UserApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -17,9 +21,10 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class UserController {
     private final UserApplicationService userApplicationService;
+    private final UserCommandHandler userCommandHandler;
 
     @PostMapping
-    public ResponseEntity<UserRegisterResponse> userRegistration(@RequestBody UserRegisterCommand userRegisterCommand) {
+    public ResponseEntity<UserRegisterResponse> userRegistration(@Valid @RequestBody UserRegisterCommand userRegisterCommand) {
         log.info("Registering user: ");
         UserRegisterResponse userRegisterResponse = userApplicationService.create(userRegisterCommand);
         log.info("User registered with id: {}", userRegisterResponse);
@@ -46,27 +51,27 @@ public class UserController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<UserRegisterResponse> update(@Valid @RequestBody UserUpdateCommand request) {
-        UserRegisterResponse user = userApplicationService.update(request);
+    public ResponseEntity<UserResponse> update(@Valid @RequestBody UserUpdateCommand request) {
+        UserResponse user = userApplicationService.update(request);
         return ResponseEntity.ok(user);
     }
     
     @PatchMapping("/password")
-    public ResponseEntity<UserRegisterResponse> updatePassword(
+    public ResponseEntity<UserResponse> updatePassword(
             @Valid @RequestBody UserUpdatePasswordCommand requestDTO) {
-        UserRegisterResponse user = userApplicationService.updatePassword(requestDTO);
+        UserResponse user = userApplicationService.updatePassword(requestDTO);
         return ResponseEntity.ok(user);
     }
     
-//    @PatchMapping("/{id}/profile-picture")
-//    public ResponseEntity<UserRegisterResponse> updateProfilePicture(
-//            @PathVariable Long id, @RequestParam("file") MultipartFile file) {
-//        UserRegisterResponse user = userApplicationService.updateProfilePicture(file);
-//        return ResponseEntity.ok(user);
-//    }
+    @PatchMapping("/{id}/profile-picture")
+    public ResponseEntity<UserResponse> updateProfilePicture(
+            @PathVariable UUID id, @RequestParam("file") MultipartFile file) {
+        UserResponse user = userApplicationService.updateProfilePicture(file);
+        return ResponseEntity.ok(user);
+    }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PagedResponse<UserBaseResponse>> getUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
@@ -74,4 +79,22 @@ public class UserController {
         PagedResponse<UserBaseResponse> users = userApplicationService.getUsers(page, size);
         return ResponseEntity.ok(users);
     }
+
+//    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+//    public ResponseEntity<Void> handleOptions() {
+//        return ResponseEntity.ok()
+//                .header("Access-Control-Allow-Origin", "http://your-frontend-domain.com")
+//                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+//                .header("Access-Control-Allow-Headers", "*")
+//                .header("Access-Control-Allow-Credentials", "true")
+//                .build();
+//    }
+
+    @GetMapping("/test/{id}")
+    public ResponseEntity<String> testing(@PathVariable UUID id) {
+        userCommandHandler.sendEmailVerificationTest(id);
+        return ResponseEntity.ok("success");
+    }
+
 }
+

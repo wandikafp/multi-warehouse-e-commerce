@@ -7,21 +7,24 @@ import { Role } from '@/models/user/UserResponse';
 
 export default function AdminNav() {
   return (
-    <RoleGuard rolesAllowed={[Role.ADMIN]}>
+    <RoleGuard rolesAllowed={[Role.SUPER_ADMIN]}>
       <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative mx-2">
-          Admin
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href="/admin/users">Users</Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative mx-2">
+            Admin
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <Link href="/admin/users">Users</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/admin/product-categories">Product Categories</Link>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </RoleGuard>
   )
 }

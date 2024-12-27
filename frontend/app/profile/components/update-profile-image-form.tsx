@@ -4,7 +4,7 @@ import FileUpload from "@/components/file-upload";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { useAuthGuard } from "@/lib/auth/use-auth";
-import { userClient } from "@/lib/httpClient";
+import { userService } from "@/lib/services";
 import React from "react";
 import { toast } from "sonner";
 
@@ -14,10 +14,12 @@ export default function UpdateProfileImageForm() {
   const handleLogoChange = (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
-
-    userClient.patch(`/api/users/${user?.id}/profile-picture`, formData, {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) throw new Error("Unauthorized");
+    userService.patch(`/api/users/${user?.id}/profile-picture`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${jwtToken}`
       },
     })
       .then(() => {
@@ -34,7 +36,8 @@ export default function UpdateProfileImageForm() {
       <Label>Logo</Label>
       <FileUpload
         onFileSelect={(file) => handleLogoChange(file)}
-        allowedTypes={["image/png", "image/jpg", "image/jpeg"]}
+        maxSize={1024 * 1024}
+        allowedTypes={["image/png", "image/jpg", "image/jpeg", "image/gif"]}
         onValidationError={(err) => {
           toast.error(err);
         }}

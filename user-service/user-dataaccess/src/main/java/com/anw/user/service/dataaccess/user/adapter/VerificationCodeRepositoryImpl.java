@@ -27,7 +27,9 @@ public class VerificationCodeRepositoryImpl implements VerificationCodeRepositor
 
     @Override
     public VerificationCode save(VerificationCode verificationCode) {
-        return null;
+        return verificationCodeMapper.verificationCodeEntityToVerificationCode(
+                verificationCodeJpaRepository.save(
+                verificationCodeMapper.verificationCodeToVerificationCodeEntity(verificationCode)));
     }
 
     @Override

@@ -5,10 +5,10 @@ import SuccessFeedback from "@/components/success-feedback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { userClient } from "@/lib/httpClient";
+import { userService } from "@/lib/services";
 import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { use } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,7 +21,7 @@ export default function ForgotPasswordPage() {
   const [success, setSuccess] = React.useState<boolean>(false);
 
   async function onSubmit(data: Schema) {
-    userClient
+    userService
       .post("/api/users/forgot-password", data)
       .then(() => {
         setSuccess(true);
