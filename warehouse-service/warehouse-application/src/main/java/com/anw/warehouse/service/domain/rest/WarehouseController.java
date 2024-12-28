@@ -1,5 +1,6 @@
 package com.anw.warehouse.service.domain.rest;
 
+import com.anw.domain.dto.PagedResponse;
 import com.anw.warehouse.service.domain.dto.WarehouseBaseResponse;
 import com.anw.warehouse.service.domain.dto.create.CreateWarehouseCommand;
 import com.anw.warehouse.service.domain.dto.create.CreateWarehouseResponse;
@@ -30,12 +31,12 @@ public class WarehouseController {
         return ResponseEntity.ok(uuid);
     }
     @GetMapping
-    public ResponseEntity<List<WarehouseBaseResponse>> getWarehouses(
+    public ResponseEntity<PagedResponse<WarehouseBaseResponse>> getWarehouses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         log.info("Retrieving warehouses: ");
-        List<WarehouseBaseResponse> warehouses = warehouseApplicationService.getWarehouses(page, size);
+        PagedResponse<WarehouseBaseResponse> warehouses = warehouseApplicationService.getWarehouses(page, size);
         return ResponseEntity.ok(warehouses);
     }
     @PostMapping
@@ -51,5 +52,11 @@ public class WarehouseController {
         UpdateWarehouseResponse updateWarehouseResponse = warehouseApplicationService.updateWarehouse(updateWarehouseCommand);
         log.info("Warehouse updated with id: {}", updateWarehouseResponse);
         return ResponseEntity.ok(updateWarehouseResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable UUID id) {
+        warehouseApplicationService.deleteWarehouse(id);
+        return ResponseEntity.noContent().build();
     }
 }

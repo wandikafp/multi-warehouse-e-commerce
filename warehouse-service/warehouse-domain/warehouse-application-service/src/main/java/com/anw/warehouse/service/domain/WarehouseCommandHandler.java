@@ -1,5 +1,6 @@
 package com.anw.warehouse.service.domain;
 
+import com.anw.domain.dto.PagedResponse;
 import com.anw.warehouse.service.domain.dto.WarehouseBaseResponse;
 import com.anw.warehouse.service.domain.dto.create.CreateWarehouseCommand;
 import com.anw.warehouse.service.domain.dto.create.CreateWarehouseResponse;
@@ -13,8 +14,10 @@ import com.anw.warehouse.service.domain.ports.output.message.publisher.Warehouse
 import com.anw.warehouse.service.domain.ports.output.repository.WarehouseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,11 +38,13 @@ public class WarehouseCommandHandler {
         this.warehouseCreatedTestRequestMessagePublisher = warehouseCreatedTestRequestMessagePublisher;
     }
 
-    public List<WarehouseBaseResponse> getWarehouses(int page, int size) {
-        return warehouseRepository.findAll(page, size)
-                .stream()
-                .map(warehouseDataMapper::warehouseToWarehouseBaseResponse)
-                .collect(Collectors.toList());
+    public PagedResponse<WarehouseBaseResponse> getWarehouses(int page, int size) {
+        PagedResponse<Warehouse> warehouses = warehouseRepository.findAll(page, size);
+        return new PagedResponse<>(warehouses.getPage(), warehouses.getSize(), warehouses.getTotalElements(), warehouses.getTotalPages(),
+                warehouses.getData()
+                        .stream()
+                        .map(warehouseDataMapper::warehouseToWarehouseBaseResponse)
+                        .collect(Collectors.toList()));
     }
 
     public CreateWarehouseResponse createWarehouse(CreateWarehouseCommand createWarehouseCommand) {
@@ -47,7 +52,9 @@ public class WarehouseCommandHandler {
         WarehouseCreatedEvent warehouseCreatedEvent = warehouseHelper.persistCreateWarehouse(warehouse);
         log.info("warehouse is created with id: {}", warehouseCreatedEvent.getWarehouse().getId().getValue());
         //Below event just for testing
-        warehouseCreatedTestRequestMessagePublisher.publish(warehouseCreatedEvent);
+        CompletableFuture.runAsync(() -> {
+            warehouseCreatedTestRequestMessagePublisher.publish(warehouseCreatedEvent);
+        });
         return warehouseDataMapper.warehouseToCreateWarehouseResponse(warehouseCreatedEvent.getWarehouse());
     }
 
@@ -55,5 +62,10 @@ public class WarehouseCommandHandler {
         Warehouse warehouse = warehouseDataMapper.updateWarehouseCommandToWarehouse(updateWarehouseCommand);
         WarehouseUpdatedEvent warehouseUpdatedEvent = warehouseHelper.persistUpdateWarehouse(warehouse);
         return warehouseDataMapper.warehouseToUpdateWarehouseResponse(warehouseUpdatedEvent.getWarehouse());
+    }
+
+    @Transactional
+    public void deleteWarehouse(UUID warehouseId) {
+        warehouseHelper.persistDeleteWarehouse(warehouseId);
     }
 }

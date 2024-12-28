@@ -1,9 +1,14 @@
 package com.anw.warehouse.service.dataaccess.warehouse.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -16,13 +21,20 @@ import java.util.UUID;
 public class WarehouseEntity {
     @Id
     private UUID id;
+    private String name;
     private UUID adminId;
+    private String street;
+    private String city;
+    private String province;
+    private String postalCode;
+    private double longitude;
+    private double latitude;
 
-    @Column(nullable = false)
-    private ZonedDateTime createAt;
+    @CreationTimestamp
+    @Column(name="created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
 
-    private ZonedDateTime updateAt;
-
-    @OneToOne(mappedBy = "warehouse", cascade = CascadeType.ALL)
-    private WarehouseAddressEntity address;
+    @UpdateTimestamp
+    @Column(name="updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime updatedAt;
 }

@@ -1,5 +1,6 @@
 package com.anw.warehouse.service.dataaccess.warehouse.adapter;
 
+import com.anw.domain.dto.PagedResponse;
 import com.anw.warehouse.service.dataaccess.warehouse.mapper.WarehouseDataAccessMapper;
 import com.anw.warehouse.service.dataaccess.warehouse.repository.WarehouseJpaRepository;
 import com.anw.warehouse.service.domain.entity.Warehouse;
@@ -11,8 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -27,12 +27,10 @@ public class WarehouseRepositoryImpl implements WarehouseRepository {
     }
 
     @Override
-    public List<Warehouse> findAll(int page, int size) {
+    public PagedResponse<Warehouse> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return warehouseJpaRepository.findAll(pageable).getContent()
-                .stream()
-                .map(warehouseDataAccessMapper::warehouseEntityToWarehouse)
-                .collect(Collectors.toList());
+        return new PagedResponse<>(warehouseJpaRepository.findAll(pageable)
+                .map(warehouseDataAccessMapper::warehouseEntityToWarehouse));
     }
 
     @Override
@@ -50,5 +48,10 @@ public class WarehouseRepositoryImpl implements WarehouseRepository {
             log.error("warehouse with id {} is not found", warehouse.getId().getValue());
             throw new WarehouseDomainException("warehouse with id " + warehouse.getId().getValue() + " is not found");
         }
+    }
+
+    @Override
+    public void deleteById(UUID warehouseId) {
+        warehouseJpaRepository.deleteById(warehouseId);
     }
 }

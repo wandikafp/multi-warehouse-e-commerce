@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import static com.anw.domain.DomainConstants.UTC;
 
@@ -37,15 +38,8 @@ public class WarehouseHelper {
 
     @Transactional
     public WarehouseUpdatedEvent persistUpdateWarehouse(Warehouse warehouse) {
-        Warehouse oldWarehouse = warehouseRepository.getById(warehouse);
         WarehouseUpdatedEvent warehouseUpdatedEvent = warehouseDomainService.validateAndUpdateWarehouse(warehouse);
-        Warehouse newWarehouse = Warehouse.builder()
-                .adminId(new UserId(warehouse.getAdminId().getValue()))
-                .locationAddress(warehouse.getLocationAddress())
-                .createdAt(oldWarehouse.getCreatedAt())
-                .updatedAt(ZonedDateTime.now(ZoneId.of(UTC)))
-                .build();
-        saveWarehouse(newWarehouse);
+        saveWarehouse(warehouse);
         log.info("initialize warehouse with id: {}", warehouse.getId().getValue());
         return warehouseUpdatedEvent;
     }
@@ -53,5 +47,10 @@ public class WarehouseHelper {
     private void saveWarehouse(Warehouse warehouse) {
         Warehouse warehouseResult = warehouseRepository.save(warehouse);
         log.info("Warehouse is saved with id: {}", warehouseResult.getId().getValue());
+    }
+
+    @Transactional
+    public void persistDeleteWarehouse(UUID warehouseId) {
+        warehouseRepository.deleteById(warehouseId);
     }
 }

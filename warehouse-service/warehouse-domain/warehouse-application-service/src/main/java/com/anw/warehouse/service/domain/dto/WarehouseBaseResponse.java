@@ -1,7 +1,6 @@
 package com.anw.warehouse.service.domain.dto;
 
-import com.anw.domain.valueobject.Address;
-import jakarta.validation.constraints.NotNull;
+import com.anw.domain.valueobject.UserId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +13,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class WarehouseBaseResponse {
-    private final UUID id;
-    private final UUID adminId;
-    @NotNull
-    private final Address locationAddress;
+    private UUID id;
+    private String name;
+    private UUID adminId;
+    private String street;
+    private String city;
+    private String province;
+    private String postalCode;
+    private double longitude;
+    private double latitude;
 }

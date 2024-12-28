@@ -14,15 +14,21 @@ export default function AdminLayout({
 }: Readonly<{
     children: ReactNode;
 }>) {
-    const { user } = useAuthGuard({ middleware: "auth" });
+    // const { user } = useAuthGuard({ middleware: "auth" });
 
-    if (!user) return <Loading />;
+    // if (!user) return <Loading />;
+    // return (
+    //     <>
+    //         <PermissionGuard rolesAllowed={[Role.SUPER_ADMIN]}></PermissionGuard>
+    //         <RoleGuard rolesAllowed={[Role.SUPER_ADMIN]}>
+    //             {children}
+    //         </RoleGuard>
+    //     </>
+    // );
+
     return (
         <>
-            <PermissionGuard rolesAllowed={[Role.SUPER_ADMIN]}></PermissionGuard>
-            <RoleGuard rolesAllowed={[Role.SUPER_ADMIN]}>
-                {children}
-            </RoleGuard>
+            {children}
         </>
-    );
+    )
 };
