@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/warehouse", produces = "application/json")
+@RequestMapping(value = "/api/warehouse", produces = "application/json")
 public class WarehouseController {
 
     private final WarehouseApplicationService warehouseApplicationService;

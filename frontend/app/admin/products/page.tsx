@@ -21,7 +21,6 @@ import { productService } from "@/lib/services";
 import { PagedResponse } from '@/models/http/PagedResponse';
 import { ProductResponse } from '@/models/product/ProductResponse';
 import { CategoryResponse } from '@/models/product/CategoryResponse';
-import useSWR from 'swr';
 
 export default function ProductList() {
   const [searchQuery, setSearchQuery] = useState("");
