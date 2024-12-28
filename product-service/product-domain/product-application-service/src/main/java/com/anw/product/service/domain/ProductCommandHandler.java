@@ -1,5 +1,7 @@
 package com.anw.product.service.domain;
 
+import com.anw.domain.dto.PagedRequest;
+import com.anw.domain.dto.PagedResponse;
 import com.anw.product.service.domain.dto.ProductBaseResponse;
 import com.anw.product.service.domain.dto.create.CreateProductCommand;
 import com.anw.product.service.domain.dto.create.CreateProductResponse;
@@ -13,8 +15,10 @@ import com.anw.product.service.domain.ports.output.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,18 +29,13 @@ public class ProductCommandHandler {
     private final ProductHelper productHelper;
     private final ProductRepository productRepository;
 
-    public List<ProductBaseResponse> getProducts(int page, int size) {
-        return productRepository.findAll(page, size)
-                .stream()
-                .map(productDataMapper::productToProductBaseResponse)
-                .collect(Collectors.toList());
-    }
-
-    public List<ProductBaseResponse> searchProducts(String query) {
-        return productRepository.search(query)
-                .stream()
-                .map(productDataMapper::productToProductBaseResponse)
-                .collect(Collectors.toList());
+    public PagedResponse<ProductBaseResponse> getProducts(PagedRequest pagedRequest) {
+        PagedResponse<Product> products = productRepository.findAll(pagedRequest);
+        return new PagedResponse<>(products.getPage(), products.getSize(), products.getTotalElements(), products.getTotalPages(),
+                products.getData()
+                        .stream()
+                        .map(productDataMapper::productToProductBaseResponse)
+                        .collect(Collectors.toList()));
     }
 
     public ProductBaseResponse getProductDetail(String productId) {
@@ -57,5 +56,10 @@ public class ProductCommandHandler {
         Product product = productDataMapper.updateProductCommandToProduct(updateProductCommand);
         ProductUpdatedEvent productUpdatedEvent = productHelper.persistUpdateProduct(product);
         return productDataMapper.productToUpdateProductResponse(productUpdatedEvent.getProduct());
+    }
+
+    @Transactional
+    public void deleteProduct(UUID categoryId) {
+        productRepository.deleteById(categoryId);
     }
 }

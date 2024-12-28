@@ -13,10 +13,8 @@ public class ProductBaseCommand {
     private String description;
     @NotNull
     private double price;
-    @NotNull
     private int stockQuantity;
     @NotNull
     private String imageUrl;
-    @NotNull
-    private UUID categoryId;
+    private CategoryCommand category;
 }

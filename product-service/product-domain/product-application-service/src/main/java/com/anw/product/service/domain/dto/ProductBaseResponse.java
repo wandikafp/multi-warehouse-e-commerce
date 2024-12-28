@@ -18,5 +18,5 @@ public class ProductBaseResponse {
     private final double price;
     private final int stockQuantity;
     private final String imageUrl;
-    private final UUID categoryId;
+    private final CategoryResponse category;
 }

@@ -25,7 +25,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(customizer -> {
             customizer
                     .requestMatchers("/api/**").permitAll()
-                    .anyRequest().authenticated();
+                    .anyRequest().permitAll();
         });
 
         http.csrf().disable(); // Disable CSRF protection

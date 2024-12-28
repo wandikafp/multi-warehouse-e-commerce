@@ -29,6 +29,8 @@ import { CategoryResponse } from '@/models/product/CategoryResponse';
 
 export default function AdminCategoryPage() {
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [currentCategory, setCurrentCategory] = useState<CategoryResponse | null>(null);
 
     const fetcher = (url: string) => {
         const jwtToken = localStorage.getItem("jwtToken");
@@ -41,8 +43,7 @@ export default function AdminCategoryPage() {
 
     const { data } = useSWR('/api/categories', fetcher);
 
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [currentCategory, setCurrentCategory] = useState<CategoryResponse | null>(null);
+
     const methods = useForm<Omit<CategoryResponse, 'id'>>();
 
     const handleCreate = () => {

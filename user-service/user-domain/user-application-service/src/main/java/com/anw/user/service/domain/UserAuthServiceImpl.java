@@ -1,12 +1,10 @@
 package com.anw.user.service.domain;
 
-import com.anw.domain.util.JwtUtil;
 import com.anw.user.service.domain.dto.auth.UserLoginCommand;
 import com.anw.user.service.domain.dto.auth.UserLoginResponse;
 import com.anw.user.service.domain.dto.user.UserResponse;
 import com.anw.user.service.domain.entity.User;
 import com.anw.user.service.domain.ports.input.service.UserAuthService;
-import com.anw.user.service.domain.ports.output.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +23,10 @@ import java.util.Collection;
 public class UserAuthServiceImpl implements UserAuthService {
 
     private final AuthenticationManager authenticationManager;
+
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+
     private final UserCommandHandler userCommandHandler;
-    private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
 
     @Override
     public UserLoginResponse login(UserLoginCommand body) {
@@ -44,15 +42,8 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public UserResponse getSession(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
-            String userEmail = jwtUtil.extractUserEmail(token);
-            Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-            User user = userRepository.findByEmail(userEmail);
-            return new UserResponse(user, authorities);
-        } else {
-            throw new IllegalArgumentException("Invalid Authorization header");
-        }
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return new UserResponse(user, authorities);
     }
 }

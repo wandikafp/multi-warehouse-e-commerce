@@ -1,6 +1,7 @@
 package com.anw.product.service.domain.mapper;
 
 import com.anw.domain.valueobject.ProductId;
+import com.anw.product.service.domain.dto.CategoryResponse;
 import com.anw.product.service.domain.dto.ProductBaseResponse;
 import com.anw.product.service.domain.dto.create.CreateProductCommand;
 import com.anw.product.service.domain.dto.create.CreateProductResponse;
@@ -22,7 +23,10 @@ public class ProductDataMapper {
                 .price(product.getPrice())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
-                .categoryId(product.getCategory().getId())
+                .category(CategoryResponse.builder()
+                        .id(product.getCategory().getId())
+                        .name(product.getCategory().getName())
+                        .build())
                 .build();
     }
 
@@ -35,7 +39,7 @@ public class ProductDataMapper {
                 .stockQuantity(createProductCommand.getStockQuantity())
                 .imageUrl(createProductCommand.getImageUrl())
                 .category(Category.builder()
-                        .categoryId(createProductCommand.getCategoryId())
+                        .categoryId(createProductCommand.getCategory().getId())
                         .build())
                 .build();
     }
@@ -48,7 +52,10 @@ public class ProductDataMapper {
                 .price(product.getPrice())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
-                .categoryId(product.getCategory().getId())
+                .category(CategoryResponse.builder()
+                        .id(product.getCategory().getId())
+                        .name(product.getCategory().getName())
+                        .build())
                 .build();
     }
 
@@ -61,7 +68,7 @@ public class ProductDataMapper {
                 .stockQuantity(updateProductCommand.getStockQuantity())
                 .imageUrl(updateProductCommand.getImageUrl())
                 .category(Category.builder()
-                        .categoryId(updateProductCommand.getCategoryId())
+                        .categoryId(updateProductCommand.getCategory().getId())
                         .build())
                 .build();
     }
@@ -74,7 +81,10 @@ public class ProductDataMapper {
                 .price(product.getPrice())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
-                .categoryId(product.getCategory().getId())
+                .category(CategoryResponse.builder()
+                        .id(product.getCategory().getId())
+                        .name(product.getCategory().getName())
+                        .build())
                 .build();
     }
 }

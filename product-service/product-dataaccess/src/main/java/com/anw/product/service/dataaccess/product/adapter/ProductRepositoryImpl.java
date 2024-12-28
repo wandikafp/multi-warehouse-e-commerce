@@ -1,5 +1,8 @@
 package com.anw.product.service.dataaccess.product.adapter;
 
+import com.anw.domain.dto.PagedRequest;
+import com.anw.domain.dto.PagedResponse;
+import com.anw.product.service.dataaccess.product.entity.ProductEntity;
 import com.anw.product.service.dataaccess.product.mapper.ProductDataAccessMapper;
 import com.anw.product.service.dataaccess.product.repository.ProductJpaRepository;
 import com.anw.product.service.domain.entity.Product;
@@ -8,9 +11,12 @@ import com.anw.product.service.domain.ports.output.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,12 +31,15 @@ public class ProductRepositoryImpl implements ProductRepository {
     private final ProductDataAccessMapper productDataAccessMapper;
 
     @Override
-    public List<Product> findAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return productJpaRepository.findAll(pageable).getContent()
-                .stream()
-                .map(productDataAccessMapper::productEntityToProduct)
-                .collect(Collectors.toList());
+    public PagedResponse<Product> findAll(PagedRequest pagedRequest) {
+        Pageable pageable = PageRequest.of(pagedRequest.getPage(), pagedRequest.getSize());
+        Page<ProductEntity> productEntities;
+        if (StringUtils.hasText(pagedRequest.getQuery())) {
+            productEntities = productJpaRepository.findByNameContainingIgnoreCase(pagedRequest.getQuery(), pageable);
+        } else {
+            productEntities = productJpaRepository.findAll(pageable);
+        }
+        return new PagedResponse<>(productEntities.map(productDataAccessMapper::productEntityToProduct));
     }
 
     @Override
@@ -62,5 +71,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Optional<Product> findById(String productId) {
         return productJpaRepository.findById(UUID.fromString(productId))
                 .map(productDataAccessMapper::productEntityToProduct);
+    }
+
+    @Override
+    public void deleteById(UUID productId) {
+        productJpaRepository.deleteById(productId);
     }
 }

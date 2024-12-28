@@ -31,6 +31,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
 
   async function onSubmit(data: Schema) {
+    setIsLoading(true);
     const res = await login({
       onError: (errors) => {
         setErrors(errors)
@@ -39,7 +40,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         }
       },
       props: data,
-    })
+    });
   }
 
   const { register, handleSubmit, formState } = useForm<Schema>({

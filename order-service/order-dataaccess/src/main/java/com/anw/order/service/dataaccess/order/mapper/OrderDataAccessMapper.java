@@ -16,11 +16,6 @@ public class OrderDataAccessMapper {
                 .price(order.getPrice())
                 .stockQuantity(order.getStockQuantity())
                 .imageUrl(order.getImageUrl())
-                .category(new CategoryEntity(
-                        order.getCategory().getId(),
-                        order.getCategory().getName(),
-                        order.getCategory().getDescription(),
-                        order.getCategory().getIcon()))
                 .build();
     }
 
@@ -32,12 +27,6 @@ public class OrderDataAccessMapper {
                 .price(entity.getPrice())
                 .stockQuantity(entity.getStockQuantity())
                 .imageUrl(entity.getImageUrl())
-                .category(Category.builder()
-                        .categoryId(entity.getCategory().getId())
-                        .name(entity.getCategory().getName())
-                        .description(entity.getCategory().getDescription())
-                        .icon(entity.getCategory().getIcon())
-                        .build())
                 .build();
     }
 }

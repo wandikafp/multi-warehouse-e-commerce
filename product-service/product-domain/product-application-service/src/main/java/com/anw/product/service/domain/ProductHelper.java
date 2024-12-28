@@ -1,7 +1,5 @@
 package com.anw.product.service.domain;
 
-import com.anw.domain.valueobject.UserId;
-import com.anw.product.service.domain.dto.create.CreateProductCommand;
 import com.anw.product.service.domain.entity.Product;
 import com.anw.product.service.domain.event.ProductCreatedEvent;
 import com.anw.product.service.domain.event.ProductUpdatedEvent;
@@ -9,11 +7,6 @@ import com.anw.product.service.domain.ports.output.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
-import static com.anw.domain.DomainConstants.UTC;
 
 @Slf4j
 @Component
@@ -37,11 +30,8 @@ public class ProductHelper {
 
     @Transactional
     public ProductUpdatedEvent persistUpdateProduct(Product product) {
-        Product oldproduct = productRepository.getById(product);
         ProductUpdatedEvent productUpdatedEvent = productDomainService.validateAndUpdateProduct(product);
-        Product newProduct = product.builder()
-                .build();
-        saveProduct(newProduct);
+        saveProduct(product);
         log.info("initialize product with id: {}", product.getId().getValue());
         return productUpdatedEvent;
     }

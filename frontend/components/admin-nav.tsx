@@ -22,6 +22,9 @@ export default function AdminNav() {
             <DropdownMenuItem>
               <Link href="/admin/product-categories">Product Categories</Link>
             </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/admin/products">Products</Link>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

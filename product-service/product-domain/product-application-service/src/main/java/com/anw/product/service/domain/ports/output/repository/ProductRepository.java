@@ -1,14 +1,18 @@
 package com.anw.product.service.domain.ports.output.repository;
 
+import com.anw.domain.dto.PagedRequest;
+import com.anw.domain.dto.PagedResponse;
 import com.anw.product.service.domain.entity.Product;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ProductRepository {
-    List<Product> findAll(int page, int size);
+    PagedResponse<Product> findAll(PagedRequest pagedRequest);
     Product save (Product product);
     Product getById(Product product);
     List<Product> search(String query);
     Optional<Product> findById(String productId);
+    void deleteById(UUID productId);
 }

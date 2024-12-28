@@ -1,5 +1,7 @@
 package com.anw.product.service.domain.rest;
 
+import com.anw.domain.dto.PagedRequest;
+import com.anw.domain.dto.PagedResponse;
 import com.anw.product.service.domain.dto.ProductBaseResponse;
 import com.anw.product.service.domain.dto.create.CreateProductCommand;
 import com.anw.product.service.domain.dto.create.CreateProductResponse;
@@ -10,12 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/Product", produces = "application/json")
+@RequestMapping(value = "/api/product", produces = "application/json")
 public class ProductController {
 
     private final ProductApplicationService productApplicationService;
@@ -24,20 +25,19 @@ public class ProductController {
         this.productApplicationService = productApplicationService;
     }
     @GetMapping
-    public ResponseEntity<List<ProductBaseResponse>> getProducts(
+    public ResponseEntity<PagedResponse<ProductBaseResponse>> getProducts(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "9") int size,
+            @RequestParam(defaultValue = "") String query
     ) {
         log.info("Retrieving Products: ");
-        List<ProductBaseResponse> Products = productApplicationService.getProducts(page, size);
+        PagedRequest pagedRequest = PagedRequest.builder()
+                .page(page)
+                .size(size)
+                .query(query)
+                .build();
+        PagedResponse<ProductBaseResponse> Products = productApplicationService.getProducts(pagedRequest);
         return ResponseEntity.ok(Products);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<ProductBaseResponse>> searchProducts(@RequestParam String query) {
-        log.info("Searching Products with query: {}", query);
-        List<ProductBaseResponse> products = productApplicationService.searchProducts(query);
-        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{productId}")
@@ -60,5 +60,11 @@ public class ProductController {
         UpdateProductResponse updateProductResponse = productApplicationService.updateProduct(updateProductCommand);
         log.info("Product updated with id: {}", updateProductResponse);
         return ResponseEntity.ok(updateProductResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
+        productApplicationService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 }

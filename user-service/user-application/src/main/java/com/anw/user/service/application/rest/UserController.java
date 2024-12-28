@@ -7,7 +7,6 @@ import com.anw.user.service.domain.ports.input.service.UserApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,16 +78,6 @@ public class UserController {
         PagedResponse<UserBaseResponse> users = userApplicationService.getUsers(page, size);
         return ResponseEntity.ok(users);
     }
-
-//    @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
-//    public ResponseEntity<Void> handleOptions() {
-//        return ResponseEntity.ok()
-//                .header("Access-Control-Allow-Origin", "http://your-frontend-domain.com")
-//                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
-//                .header("Access-Control-Allow-Headers", "*")
-//                .header("Access-Control-Allow-Credentials", "true")
-//                .build();
-//    }
 
     @GetMapping("/test/{id}")
     public ResponseEntity<String> testing(@PathVariable UUID id) {

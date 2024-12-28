@@ -1,16 +1,17 @@
 package com.anw.product.service.domain;
 
+import com.anw.domain.dto.PagedRequest;
+import com.anw.domain.dto.PagedResponse;
 import com.anw.product.service.domain.dto.ProductBaseResponse;
 import com.anw.product.service.domain.dto.create.CreateProductCommand;
 import com.anw.product.service.domain.dto.create.CreateProductResponse;
 import com.anw.product.service.domain.dto.update.UpdateProductCommand;
 import com.anw.product.service.domain.dto.update.UpdateProductResponse;
 import com.anw.product.service.domain.ports.input.service.ProductApplicationService;
-import com.anw.product.service.domain.ports.output.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -21,8 +22,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     }
 
     @Override
-    public List<ProductBaseResponse> getProducts(int page, int size) {
-        return productCommandHandler.getProducts(page, size);
+    public PagedResponse<ProductBaseResponse> getProducts(PagedRequest pagedRequest) {
+        return productCommandHandler.getProducts(pagedRequest);
     }
 
     @Override
@@ -36,12 +37,12 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     }
 
     @Override
-    public List<ProductBaseResponse> searchProducts(String query) {
-        return productCommandHandler.searchProducts(query);
+    public ProductBaseResponse getProductDetail(String productId) {
+        return productCommandHandler.getProductDetail(productId);
     }
 
     @Override
-    public ProductBaseResponse getProductDetail(String productId) {
-        return productCommandHandler.getProductDetail(productId);
+    public void deleteProduct(UUID productId) {
+        productCommandHandler.deleteProduct(productId);
     }
 }
