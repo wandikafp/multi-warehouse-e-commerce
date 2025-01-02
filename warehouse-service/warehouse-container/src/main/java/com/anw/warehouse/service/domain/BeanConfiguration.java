@@ -9,4 +9,9 @@ public class BeanConfiguration {
     public WarehouseDomainService warehouseDomainService() {
         return new WarehouseDomainServiceImpl();
     }
+
+    @Bean
+    public StockDomainService stockDomainService() {
+        return new StockDomainServiceImpl() {};
+    }
 }

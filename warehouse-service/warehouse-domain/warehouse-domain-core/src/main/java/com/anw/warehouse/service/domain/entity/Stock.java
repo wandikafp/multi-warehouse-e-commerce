@@ -11,18 +11,21 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-
 public class Stock extends BaseEntity<StockId> {
     private final WarehouseId warehouseId;
     private final ProductId productId;
-    private final Integer amount;
+    private Integer quantity;
 
     @Builder
-    public Stock(StockId stockId, WarehouseId warehouseId, ProductId productId, Integer amount) {
+    public Stock(StockId stockId, WarehouseId warehouseId, ProductId productId, Integer quantity) {
         super.setId(stockId);
         this.warehouseId = warehouseId;
         this.productId = productId;
-        this.amount = amount;
+        this.quantity = quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public void initializeStock() {
@@ -30,7 +33,7 @@ public class Stock extends BaseEntity<StockId> {
     }
 
     private void validateStockAmount(int size) {
-        if (amount == null || amount < size) {
+        if (quantity == null || quantity < size) {
             throw new StockDomainException("Stock amount cannot be empty or less than wanted amount");
         }
     }

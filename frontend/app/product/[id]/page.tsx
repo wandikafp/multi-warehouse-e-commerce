@@ -27,6 +27,10 @@ export default function ProductDetail({ params }: { params: Params }) {
 
   const { data } = useSWR(`/api/product/${id}`, fetcher);
 
+  const handleAddToCart = () => {
+    alert("Product added to cart!");
+  };
+
   if (!data) {
     return (
       <div className="container mx-auto p-6">
@@ -63,7 +67,7 @@ export default function ProductDetail({ params }: { params: Params }) {
         <CardFooter className="mt-4">
           <Button
             disabled={data.stockQuantity === 0}
-            onClick={() => alert("Product added to cart!")}
+            onClick={handleAddToCart}
           >
             {data.stockQuantity > 0 ? "Add to Cart" : "Unavailable"}
           </Button>

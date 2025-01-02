@@ -8,5 +8,5 @@ import java.util.UUID;
 public class StockBaseCommand {
     private UUID warehouseId;
     private UUID productId;
-    private Integer amount;
+    private Integer quantity;
 }

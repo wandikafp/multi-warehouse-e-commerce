@@ -17,6 +17,4 @@ public class OrderBaseCommand {
     private int stockQuantity;
     @NotNull
     private String imageUrl;
-    @NotNull
-    private UUID categoryId;
 }

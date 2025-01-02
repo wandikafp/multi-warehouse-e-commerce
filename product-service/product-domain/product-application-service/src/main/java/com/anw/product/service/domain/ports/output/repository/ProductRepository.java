@@ -12,7 +12,6 @@ public interface ProductRepository {
     PagedResponse<Product> findAll(PagedRequest pagedRequest);
     Product save (Product product);
     Product getById(Product product);
-    List<Product> search(String query);
     Optional<Product> findById(String productId);
     void deleteById(UUID productId);
 }

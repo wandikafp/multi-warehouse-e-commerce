@@ -15,7 +15,6 @@ import java.util.UUID;
 public class CartController {
 
     private final CartApplicationService cartApplicationService;
-//    private final OrderService orderService;
 
     @Autowired
     public CartController(CartApplicationService cartApplicationService) {
@@ -33,29 +32,26 @@ public class CartController {
     }
 
     // Add Item to CartResponse
-    @PostMapping("/{cartId}/add")
-    public ResponseEntity<String> addItemToCart(@PathVariable UUID cartId, @RequestBody CartItemCommand cartItem) {
-        //TODO: Validate stock availability before adding item to cart?
-
+    @PostMapping("/{customerId}/add")
+    public ResponseEntity<CartResponse> addItemToCart(@PathVariable UUID customerId, @RequestBody CartItemCommand cartItem) {
         // Add item to cart
-        cartApplicationService.addItemToCart(cartId, cartItem);
-        return new ResponseEntity<>("Product added to cart", HttpStatus.OK);
+        CartResponse cart = cartApplicationService.addItemToCart(customerId, cartItem);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     // Update Item in CartResponse
-    @PutMapping("/{cartId}/update")
-    public ResponseEntity<String> updateCartItem(@PathVariable UUID cartId, @RequestBody CartItemCommand cartItem) {
-        // TODO: Validate stock availability before updating item in cart?
+    @PutMapping("/{customerId}/update")
+    public ResponseEntity<CartResponse> updateCartItem(@PathVariable UUID customerId, @RequestBody CartItemCommand cartItem) {
 
-        cartApplicationService.updateCartItem(cartId, cartItem);
-        return new ResponseEntity<>("CartResponse item updated", HttpStatus.OK);
+        CartResponse cart = cartApplicationService.updateCartItem(customerId, cartItem);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     // Remove Item from CartResponse
-    @DeleteMapping("/{cartId}/remove")
-    public ResponseEntity<String> removeItemFromCart(@PathVariable UUID cartId, @RequestBody CartItemCommand cartItemCommand) {
-        cartApplicationService.removeItemFromCart(cartId, cartItemCommand);
-        return new ResponseEntity<>("Product removed from cart", HttpStatus.OK);
+    @DeleteMapping("/{customerId}/remove")
+    public ResponseEntity<CartResponse> removeItemFromCart(@PathVariable UUID customerId, @RequestBody CartItemCommand cartItemCommand) {
+        CartResponse cart = cartApplicationService.removeItemFromCart(customerId, cartItemCommand);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     // Proceed to Checkout

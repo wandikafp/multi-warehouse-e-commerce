@@ -21,6 +21,7 @@ import { productService } from "@/lib/services";
 import { PagedResponse } from '@/models/http/PagedResponse';
 import { ProductResponse } from '@/models/product/ProductResponse';
 import { CategoryResponse } from '@/models/product/CategoryResponse';
+import { Trash2 } from 'lucide-react';
 
 export default function ProductList() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,15 +57,15 @@ export default function ProductList() {
   };
 
   const handleCreate = () => {
+    methods.reset();
     setChoosenProduct(null);
     setIsModalOpen(true);
-    methods.reset();
   };
 
   const handleEdit = (product: ProductResponse) => {
+    methods.reset(product);
     setChoosenProduct(product);
     setIsModalOpen(true);
-    methods.reset(product);
   };
 
   const handleDelete = async (productId: string) => {
@@ -211,7 +212,10 @@ export default function ProductList() {
             <CardFooter>
               <div className="flex justify-between items-center">
                 <Button onClick={() => handleEdit(product)} className="mr-2">Edit</Button>
-                <Button onClick={() => handleDelete(product.id)}>Delete</Button>
+                <Button variant="destructive" onClick={() => handleDelete(product.id)}>
+                    <Trash2 />
+                    Delete
+                </Button>
               </div>
             </CardFooter>
           </Card>

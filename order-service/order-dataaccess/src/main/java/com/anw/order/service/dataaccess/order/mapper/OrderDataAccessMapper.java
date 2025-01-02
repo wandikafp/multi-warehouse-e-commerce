@@ -2,7 +2,6 @@ package com.anw.order.service.dataaccess.order.mapper;
 
 import com.anw.domain.valueobject.OrderId;
 import com.anw.order.service.dataaccess.order.entity.OrderEntity;
-import com.anw.order.service.domain.entity.Category;
 import com.anw.order.service.domain.entity.Order;
 import org.springframework.stereotype.Component;
 
@@ -11,17 +10,11 @@ public class OrderDataAccessMapper {
     public OrderEntity orderToOrderEntity(Order order) {
         return OrderEntity.builder()
                 .id(order.getId().getValue())
-                .name(order.getName())
-                .description(order.getDescription())
-                .price(order.getPrice())
-                .stockQuantity(order.getStockQuantity())
-                .imageUrl(order.getImageUrl())
                 .build();
     }
 
     public Order orderEntityToOrder(OrderEntity entity) {
         return Order.builder()
-                .orderId(new OrderId(entity.getId()))
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .price(entity.getPrice())

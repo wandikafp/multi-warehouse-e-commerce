@@ -12,16 +12,13 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -57,14 +54,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             log.error("product with id {} is not found", product.getId().getValue());
             throw new ProductDomainException("product with id " + product.getId().getValue() + " is not found");
         }
-    }
-
-    @Override
-    public List<Product> search(String query) {
-        return productJpaRepository.findByNameContainingIgnoreCase(query)
-                .stream()
-                .map(productDataAccessMapper::productEntityToProduct)
-                .collect(Collectors.toList());
     }
 
     @Override

@@ -16,31 +16,26 @@ public class CartApplicationServiceImpl implements CartApplicationService {
 
     @Override
     public CartResponse getCartByCustomerId(UUID customerId) {
-        return null;
+        return cartCommandHandler.getCartByCustomerId(customerId);
     }
 
     @Override
-    public CartResponse addItemToCart(UUID cartId, CartItemCommand cartItem) {
-        return null;
+    public CartResponse addItemToCart(UUID customerId, CartItemCommand cartItem) {
+        return cartCommandHandler.addOrUpdateItemToCart(customerId, cartItem);
     }
 
     @Override
-    public CartResponse updateCartItem(UUID cartId, CartItemCommand cartItem) {
-        return null;
+    public CartResponse updateCartItem(UUID customerId, CartItemCommand cartItem) {
+        return cartCommandHandler.addOrUpdateItemToCart(customerId, cartItem);
     }
 
     @Override
-    public CartResponse removeItemFromCart(UUID cartId, CartItemCommand cartItem) {
-        return null;
+    public CartResponse removeItemFromCart(UUID customerId, CartItemCommand cartItem) {
+        return cartCommandHandler.removeItemFromCart(customerId, cartItem);
     }
 
     @Override
     public CartResponse checkoutCart(UUID cartId) {
-        return null;
-    }
-
-    @Override
-    public CartResponse cancelCart(UUID cartId) {
         return null;
     }
 }

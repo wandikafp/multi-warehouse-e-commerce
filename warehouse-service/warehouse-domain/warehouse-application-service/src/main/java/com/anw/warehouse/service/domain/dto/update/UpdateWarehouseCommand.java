@@ -1,8 +1,6 @@
 package com.anw.warehouse.service.domain.dto.update;
 
-import com.anw.warehouse.service.domain.dto.WarehouseAddress;
 import com.anw.warehouse.service.domain.dto.WarehouseBaseCommand;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

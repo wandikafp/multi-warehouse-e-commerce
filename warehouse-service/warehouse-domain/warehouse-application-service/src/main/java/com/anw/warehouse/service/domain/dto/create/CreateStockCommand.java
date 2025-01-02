@@ -1,4 +1,10 @@
 package com.anw.warehouse.service.domain.dto.create;
 
-public class CreateStockCommand {
+import com.anw.warehouse.service.domain.dto.StockBaseCommand;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class CreateStockCommand extends StockBaseCommand {
 }

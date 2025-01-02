@@ -10,68 +10,66 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
-
-type CartItem = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  stock: number;
-  image: string;
-};
-
-const initialCart: CartItem[] = [
-  {
-    id: 1,
-    name: "Product A",
-    price: 100,
-    quantity: 2,
-    stock: 10,
-    image: "/images/productA.jpg",
-  },
-  {
-    id: 2,
-    name: "Product B",
-    price: 150,
-    quantity: 1,
-    stock: 0,
-    image: "/images/productB.jpg",
-  },
-];
+import { orderService } from "@/lib/services";
+import { CartResponse, CartItem } from "@/models/order/CartResponse";
+import { useEffect } from "react";
+import { useAuthGuard } from "@/lib/auth/use-auth";
 
 export default function CartPage() {
-  const [cart, setCart] = useState<CartItem[]>(initialCart);
+  // const [cart, setCart] = useState<CartItem[]>(initialCart);
+  const [cart, setCart] = useState<CartResponse | null>(null);
 
-  const handleQuantityChange = (id: number, newQuantity: number) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+  const { user } = useAuthGuard({ middleware: "auth" });
+
+  const fetchData = () => {
+    if (!user) return; // Ensure user is defined before making the API call
+    const jwtToken = localStorage.getItem("jwtToken");
+    orderService
+      .get<CartResponse>(`/api/cart/${user.id}`, {
+        headers: { Authorization: `Bearer ${jwtToken}` },
+      })
+      .then((res) => setCart(res.data));
   };
 
-  const handleRemoveItem = (id: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  useEffect(() => {
+    fetchData();
+  }, [user]); // Add user as a dependency to run the effect when user is defined
+
+  const handleQuantityChange = (cartItem: CartItem, newQuantity: number) => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    orderService.put<CartResponse>(`/api/cart/${user?.id}/update`, {
+      headers: { Authorization: `Bearer ${jwtToken}` },
+      data: { ...cartItem, quantity: newQuantity }
+    }).then(cart => {
+      setCart(cart.data);
+      alert('Cart item updated successfully');
+    });
   };
 
-  const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const handleRemoveItem = (cartItem: CartItem) => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    orderService.delete<CartResponse>(`/api/cart/${user?.id}/remove`, {
+      headers: { Authorization: `Bearer ${jwtToken}` },
+      data: cartItem
+    }).then(cart => {
+      setCart(cart.data);
+      alert('Cart item deleted successfully');
+    });
+  };
 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
 
-      {cart.length === 0 ? (
+      {cart?.cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <div className="grid gap-4">
-          {cart.map((item) => (
+          {cart?.cartItems.map((item) => (
             <Card key={item.id}>
               <CardHeader>
                 <img
-                  src={item.image}
+                  src={item.imgUrl}
                   alt={item.name}
                   className="h-40 w-full object-cover"
                 />
@@ -80,7 +78,7 @@ export default function CartPage() {
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-lg font-semibold">{item.name}</h2>
-                    <p className="text-gray-600">Price: ${item.price}</p>
+                    <p className="text-gray-600">Price: Rp {item.price}</p>
                     <p
                       className={`text-sm ${
                         item.stock > 0 ? "text-green-500" : "text-red-500"
@@ -99,7 +97,7 @@ export default function CartPage() {
                       value={item.quantity}
                       onChange={(e) =>
                         handleQuantityChange(
-                          item.id,
+                          item,
                           Math.min(Math.max(Number(e.target.value), 1), item.stock)
                         )
                       }
@@ -108,7 +106,7 @@ export default function CartPage() {
                     />
                     <Button
                       variant="destructive"
-                      onClick={() => handleRemoveItem(item.id)}
+                      onClick={() => handleRemoveItem(item)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -116,7 +114,7 @@ export default function CartPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <p>Total: ${item.price * item.quantity}</p>
+                <p>Total: Rp {item.price * item.quantity}</p>
               </CardFooter>
             </Card>
           ))}
@@ -124,8 +122,8 @@ export default function CartPage() {
       )}
 
       <div className="mt-6">
-        <h2 className="text-lg font-semibold">Total Price: ${totalPrice}</h2>
-        <Button disabled={cart.length === 0} className="mt-4">
+        <h2 className="text-lg font-semibold">Total Price: Rp {cart?.totalPrice}</h2>
+        <Button disabled={cart?.cartItems.length === 0} className="mt-4">
           Proceed to Checkout
         </Button>
       </div>

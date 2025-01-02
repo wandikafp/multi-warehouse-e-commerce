@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import Loading from "@/components/loading";
 import Container from "@/components/container";
 import UpdateProfileImageForm from "./components/update-profile-image-form";
+import AddressList from "./components/address-list";
 
 export default function ProfilePage() {
   const { user } = useAuthGuard({ middleware: "auth" });
@@ -41,6 +42,9 @@ export default function ProfilePage() {
         <Separator />
 
         <UpdatePasswordForm />
+        <Separator />
+
+        <AddressList addresses={user.addresses} />
         <Separator />
 
         <h2 className="text-lg font-semibold mb-2">Connected Accounts</h2>

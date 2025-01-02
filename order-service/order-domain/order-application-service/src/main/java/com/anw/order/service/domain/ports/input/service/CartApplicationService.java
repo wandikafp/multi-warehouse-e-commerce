@@ -14,6 +14,4 @@ public interface CartApplicationService {
     CartResponse updateCartItem(UUID cartId, CartItemCommand cartItem);
     CartResponse removeItemFromCart(UUID cartId, CartItemCommand cartItem);
     CartResponse checkoutCart(UUID cartId);
-    CartResponse cancelCart(UUID cartId);
-//    CartResponse updateCartStatus(Long cartId, CartStatus status);
 }

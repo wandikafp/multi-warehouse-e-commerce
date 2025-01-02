@@ -4,18 +4,12 @@ package com.anw.kafka.producer.service;
 import com.anw.kafka.producer.exception.KafkaProducerException;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.avro.generic.GenericDatumWriter;
-import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.io.EncoderFactory;
-import org.apache.avro.io.JsonEncoder;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.KafkaException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 
 @Slf4j
@@ -60,15 +54,5 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
             log.info("Closing kafka producer!");
             kafkaTemplate.destroy();
         }
-    }
-
-    private String convertAvroToJsonString(GenericRecord avroRecord) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        JsonEncoder encoder = EncoderFactory.get().jsonEncoder(avroRecord.getSchema(), outputStream);
-        GenericDatumWriter<GenericRecord> writer = new GenericDatumWriter<>(avroRecord.getSchema());
-        writer.write(avroRecord, encoder);
-        encoder.flush();
-        outputStream.close();
-        return outputStream.toString();
     }
 }

@@ -26,6 +26,7 @@ import { FormItem, FormLabel, FormControl } from '@/components/ui/form';
 import { warehouseService } from '@/lib/services';
 import { PagedResponse } from '@/models/http/PagedResponse';
 import { WarehouseResponse } from '@/models/warehouse/WarehouseResponse';
+import { Trash2 } from 'lucide-react';
 
 export default function AdminWarehousePage() {
     const [warehouses, setWarehouses] = useState<PagedResponse<WarehouseResponse> | null>(null);
@@ -175,7 +176,10 @@ export default function AdminWarehousePage() {
                             <TableCell>{warehouse.street}, {warehouse.city}, {warehouse.province}</TableCell>
                             <TableCell>
                                 <Button onClick={() => handleEdit(warehouse)}>Edit</Button>
-                                <Button onClick={() => handleDelete(warehouse.id)}>Delete</Button>
+                                <Button variant="destructive" onClick={() => handleDelete(warehouse.id)}>
+                                    <Trash2 />
+                                    Delete
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}

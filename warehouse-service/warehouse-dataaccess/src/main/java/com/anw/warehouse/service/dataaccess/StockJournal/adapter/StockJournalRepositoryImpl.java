@@ -1,0 +1,23 @@
+package com.anw.warehouse.service.dataaccess.StockJournal.adapter;
+
+import com.anw.warehouse.service.dataaccess.StockJournal.mapper.StockJournalDataAccessMapper;
+import com.anw.warehouse.service.dataaccess.StockJournal.repository.StockJournalJpaRepository;
+import com.anw.warehouse.service.domain.entity.StockJournal;
+import com.anw.warehouse.service.domain.ports.output.repository.StockJournalRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Component
+@Slf4j
+@RequiredArgsConstructor
+public class StockJournalRepositoryImpl implements StockJournalRepository {
+    private final StockJournalJpaRepository stockJournalJpaRepository;
+    private final StockJournalDataAccessMapper stockJournalDataAccessMapper;
+
+    @Override
+    public StockJournal save(StockJournal stockJournal) {
+        return stockJournalDataAccessMapper.stockJournalEntityToStockJournal(
+                stockJournalJpaRepository.save(stockJournalDataAccessMapper.stockJournalToStockJournalEntity(stockJournal)));
+    }
+}

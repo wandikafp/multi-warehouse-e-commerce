@@ -9,7 +9,6 @@ import com.anw.order.service.domain.entity.Order;
 import com.anw.order.service.domain.event.OrderCreatedEvent;
 import com.anw.order.service.domain.event.OrderUpdatedEvent;
 import com.anw.order.service.domain.mapper.OrderDataMapper;
-import com.anw.order.service.domain.ports.output.message.publisher.OrderCreatedTestRequestMessagePublisher;
 import com.anw.order.service.domain.ports.output.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,6 @@ public class OrderCommandHandler {
     private final OrderDataMapper orderDataMapper;
     private final OrderHelper orderHelper;
     private final OrderRepository orderRepository;
-    private final OrderCreatedTestRequestMessagePublisher orderCreatedTestRequestMessagePublisher;
 
     public List<OrderBaseResponse> getOrders(int page, int size) {
         return orderRepository.findAll(page, size)
@@ -52,7 +50,6 @@ public class OrderCommandHandler {
         OrderCreatedEvent orderCreatedEvent = orderHelper.persistCreateOrder(order);
         log.info("order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
         //Below event just for testing
-        orderCreatedTestRequestMessagePublisher.publish(orderCreatedEvent);
         return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder());
     }
 

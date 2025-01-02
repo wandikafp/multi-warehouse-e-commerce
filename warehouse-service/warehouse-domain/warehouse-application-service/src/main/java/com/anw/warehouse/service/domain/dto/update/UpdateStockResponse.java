@@ -1,4 +1,12 @@
 package com.anw.warehouse.service.domain.dto.update;
 
-public class UpdateStockResponse {
+import com.anw.warehouse.service.domain.dto.StockBaseResponse;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+
+@Getter
+@SuperBuilder
+@AllArgsConstructor
+public class UpdateStockResponse extends StockBaseResponse {
 }
