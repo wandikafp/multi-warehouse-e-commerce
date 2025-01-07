@@ -53,8 +53,8 @@ export const useAuthGuard = ({
       // Revalidate the user session
       mutate();
     } catch (err) {
-      const errors = (err as any).response?.data as HttpErrorResponse;
-      onError(errors);
+      console.log(err)
+      onError(err as HttpErrorResponse);
     }
   };
 

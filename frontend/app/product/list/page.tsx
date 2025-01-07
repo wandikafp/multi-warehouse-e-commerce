@@ -27,7 +27,7 @@ export default function ProductList() {
         .then((res) => res.data);
   };
 
-  const { data: apiData } = useSWR(`/api/product?page=${page}`, fetcher, {
+  useSWR(`/api/product?page=${page}`, fetcher, {
     onSuccess: (fetchedData) => setData(fetchedData),
   });
 

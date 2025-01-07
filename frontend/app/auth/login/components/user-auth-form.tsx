@@ -10,13 +10,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { useAuthGuard } from "@/lib/auth/use-auth";
-import { login } from "@/lib/auth/use-auth";
-import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
+// import { HttpErrorResponse } from "@/models/http/HttpErrorResponse";
 import Link from "next/link";
-import { FaFacebook, FaGoogle, FaTwitter} from "react-icons/fa";
-import { useRouter } from "next/navigation";
-
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+import { FaFacebook, FaGoogle, FaTwitter } from "react-icons/fa";
 
 const loginFormSchema = z.object({
   email: z.string().email(),
@@ -24,17 +20,14 @@ const loginFormSchema = z.object({
 });
 
 type Schema = z.infer<typeof loginFormSchema>;
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const {login} = useAuthGuard({middleware: 'guest', redirectIfAuthenticated: '/profile'});
-  const [errors, setErrors] = React.useState<HttpErrorResponse | undefined>(undefined);
-  const router = useRouter();
+  const { login } = useAuthGuard({ middleware: 'guest', redirectIfAuthenticated: '/profile' });
 
   async function onSubmit(data: Schema) {
     setIsLoading(true);
-    const res = await login({
+    await login({
       onError: (errors) => {
-        setErrors(errors)
         if (errors) {
           toast.error("Authentication failed");
         }

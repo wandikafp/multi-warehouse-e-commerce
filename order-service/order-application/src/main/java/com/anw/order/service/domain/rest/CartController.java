@@ -2,6 +2,8 @@ package com.anw.order.service.domain.rest;
 
 import com.anw.order.service.domain.dto.CartItemCommand;
 import com.anw.order.service.domain.dto.CartResponse;
+import com.anw.order.service.domain.dto.CheckoutCommand;
+import com.anw.order.service.domain.dto.CheckoutResponse;
 import com.anw.order.service.domain.ports.input.service.CartApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,22 +57,9 @@ public class CartController {
     }
 
     // Proceed to Checkout
-    @PostMapping("/{cartId}/checkout")
-    public ResponseEntity<String> checkout(@PathVariable UUID cartId) {
-        // TODO: Validate cart before proceeding to checkout (e.g. cart not empty, all items in stock, price correct, etc.)
-        // then proceed to order creation
-
-//        CartResponse cart = cartApplicationService.getCartById(cartId);
-//        if (cart == null || cart.getCartItems().isEmpty()) {
-//            return new ResponseEntity<>("CartResponse is empty", HttpStatus.BAD_REQUEST);
-//        }
-
-        // Proceed to order creation
-//        orderService.createOrder(cart);
-
-        // Update cart status
-//        cartApplicationService.updateCartStatus(cartId, "CHECKED_OUT");
-
-        return new ResponseEntity<>("Checkout successful, order created", HttpStatus.OK);
+    @PostMapping("/checkout")
+    public ResponseEntity<CheckoutResponse> checkout(@RequestBody CheckoutCommand command) {
+        CheckoutResponse checkoutResponse = cartApplicationService.checkoutCart(command);
+        return new ResponseEntity<CheckoutResponse>(checkoutResponse, HttpStatus.OK);
     }
 }

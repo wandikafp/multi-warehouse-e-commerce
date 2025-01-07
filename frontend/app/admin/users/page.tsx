@@ -30,12 +30,10 @@ import { PagedResponse } from '@/models/http/PagedResponse';
 import { UserResponse } from '@/models/user/UserResponse';
 
 export default function AdminUserPage() {
-    const [users, setUsers] = useState<UserResponse[]>([]);
     const [page, setPage] = React.useState(0);
 
     const fetcher = (url: string) => {
         const jwtToken = localStorage.getItem("jwtToken");
-        // if (!jwtToken) throw new Error("Unauthorized");
         return userService
             .get<PagedResponse<UserResponse>>(url, {
                 headers: { Authorization: `Bearer ${jwtToken}` },
@@ -44,7 +42,7 @@ export default function AdminUserPage() {
             .then((res) => res.data);
     };
 
-    const { data } = useSWR(`/api/users?page=${page}`, fetcher);
+    const { data, mutate } = useSWR(`/api/users?page=${page}`, fetcher);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<UserResponse | null>(null);
@@ -61,26 +59,29 @@ export default function AdminUserPage() {
         methods.reset(user);
     };
 
-    const handleDelete = (userId: string) => {
-        if (data?.data) {
-            setUsers(data.data.filter((user) => user.id !== userId));
-        }
+    const handleDelete = async (userId: string) => {
+        const jwtToken = localStorage.getItem("jwtToken");
+        await userService.delete(`/api/users/${userId}`, {
+            headers: { Authorization: `Bearer ${jwtToken}` },
+        });
+        // Refetch data after deletion
+        mutate();
     };
 
-    const handleSubmit = (data: Omit<UserResponse, 'id'>) => {
+    const handleSubmit = async (data: Omit<UserResponse, 'id'>) => {
+        const jwtToken = localStorage.getItem("jwtToken");
         if (currentUser) {
-            setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                    user.id === currentUser.id ? { ...user, ...data } : user
-                )
-            );
+            await userService.put(`/api/users/${currentUser.id}`, data, {
+                headers: { Authorization: `Bearer ${jwtToken}` },
+            });
         } else {
-            setUsers((prevUsers) => [
-                ...prevUsers,
-                { id: (prevUsers.length + 1).toString(), ...data },
-            ]);
+            await userService.post(`/api/users`, data, {
+                headers: { Authorization: `Bearer ${jwtToken}` },
+            });
         }
         setIsModalOpen(false);
+        // Refetch data after submission
+        mutate();
     };
 
     return (
@@ -123,7 +124,7 @@ export default function AdminUserPage() {
                                         {...methods.register('role', { required: true })}>
                                     <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select a verified email to display" />
+                                            <SelectValue placeholder="Select a role" />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>

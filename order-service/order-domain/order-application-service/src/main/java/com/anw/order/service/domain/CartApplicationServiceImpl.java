@@ -2,6 +2,8 @@ package com.anw.order.service.domain;
 
 import com.anw.order.service.domain.dto.CartItemCommand;
 import com.anw.order.service.domain.dto.CartResponse;
+import com.anw.order.service.domain.dto.CheckoutCommand;
+import com.anw.order.service.domain.dto.CheckoutResponse;
 import com.anw.order.service.domain.ports.input.service.CartApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,7 @@ public class CartApplicationServiceImpl implements CartApplicationService {
     }
 
     @Override
-    public CartResponse checkoutCart(UUID cartId) {
-        return null;
+    public CheckoutResponse checkoutCart(CheckoutCommand command) {
+        return cartCommandHandler.checkoutChart(command);
     }
 }

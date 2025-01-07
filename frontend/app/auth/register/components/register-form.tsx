@@ -15,8 +15,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-
 const registerSchema = z
   .object({
     email: z.string().email(),
@@ -30,7 +28,7 @@ const registerSchema = z
   });
 
 type Schema = z.infer<typeof registerSchema>;
-export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
+export function UserRegisterForm({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [success, setSuccess] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<HttpErrorResponse | undefined>(

@@ -7,8 +7,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/navbar";
 import Footer from "./components/Footer";
-import { useEffect } from "react";
-import { userService } from "@/lib/services";
+// import { useEffect } from "react";
+// import { userService } from "@/lib/services";
 
 const fontSans = FontSans({
   subsets: ["latin"],

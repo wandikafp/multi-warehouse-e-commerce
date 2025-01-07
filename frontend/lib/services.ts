@@ -1,8 +1,9 @@
 import Axios from 'axios';
+import dotenv from 'dotenv';
 
 // Ensure environment variables are loaded
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+  dotenv.config();
 }
 
 export const userService = Axios.create({

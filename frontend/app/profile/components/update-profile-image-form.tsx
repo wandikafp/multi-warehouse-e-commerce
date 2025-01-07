@@ -27,6 +27,7 @@ export default function UpdateProfileImageForm() {
         mutate();
       })
       .catch((error) => {
+        console.log(error);
         toast.error("Failed to update profile picture");
       });
   };

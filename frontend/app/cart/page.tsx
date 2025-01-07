@@ -33,7 +33,7 @@ export default function CartPage() {
 
   useEffect(() => {
     fetchData();
-  }, [user]); // Add user as a dependency to run the effect when user is defined
+  }, [user]);
 
   const handleQuantityChange = (cartItem: CartItem, newQuantity: number) => {
     const jwtToken = localStorage.getItem("jwtToken");

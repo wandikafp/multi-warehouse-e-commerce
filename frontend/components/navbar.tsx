@@ -11,8 +11,7 @@ import { useAuthGuard } from "@/lib/auth/use-auth";
 import { UserNav } from "./user-nav";
 import AdminNav from "./admin-nav";
 
-interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {}
-export default function Navbar({ className, ...props }: NavbarProps) {
+export default function Navbar({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { user } = useAuthGuard({ middleware: "guest" });
 
   return (
