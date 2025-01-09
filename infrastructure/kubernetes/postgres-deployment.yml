@@ -35,6 +35,7 @@ spec:
   ports:
     - name: postgres-service-port
       protocol: TCP
-      port: 5432
+      port: 5433
+      targetPort: 5432
   type: LoadBalancer
   loadBalancerIP: ""

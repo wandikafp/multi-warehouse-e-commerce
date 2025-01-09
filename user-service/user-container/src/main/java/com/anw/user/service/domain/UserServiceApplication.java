@@ -39,6 +39,14 @@ public class UserServiceApplication implements CommandLineRunner {
                     .role(Role.SUPER_ADMIN)
                     .build();
             userRepository.save(adminUser);
+            User test = User.builder()
+                    .userId(new UserId(UUID.randomUUID()))
+                    .email("test1@mail.com")
+                    .fullName("Test User")
+                    .password(new BCryptPasswordEncoder().encode("test"))
+                    .role(Role.CUSTOMER)
+                    .build();
+            userRepository.save(test);
         }
     }
 }

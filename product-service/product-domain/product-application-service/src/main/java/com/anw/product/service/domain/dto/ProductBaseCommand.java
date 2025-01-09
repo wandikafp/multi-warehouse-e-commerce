@@ -3,6 +3,7 @@ package com.anw.product.service.domain.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -12,7 +13,7 @@ public class ProductBaseCommand {
     @NotNull
     private String description;
     @NotNull
-    private double price;
+    private BigDecimal price;
     private int stockQuantity;
     @NotNull
     private String imageUrl;

@@ -16,5 +16,4 @@ public class PaymentBaseCommand {
     private int stockQuantity;
     @NotNull
     private String imageUrl;
-    private CategoryCommand category;
 }

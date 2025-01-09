@@ -1,9 +1,7 @@
 package com.anw.product.service.domain;
 
 import com.anw.domain.dto.PagedRequest;
-import com.anw.domain.dto.PagedResponse;
-import com.anw.domain.valueobject.Role;
-import com.anw.domain.valueobject.UserId;
+import com.anw.domain.valueobject.Money;
 import com.anw.product.service.domain.entity.Category;
 import com.anw.product.service.domain.entity.Product;
 import com.anw.product.service.domain.ports.output.repository.ProductRepository;
@@ -13,8 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @EnableJpaRepositories(basePackages = { "com.anw.product.service.dataaccess" })
@@ -41,7 +39,7 @@ public class ProductServiceApplication implements CommandLineRunner {
                 Product product = Product.builder()
                         .name("Product " + i)
                         .description("Product Description " + i)
-                        .price(100.0 * i)
+                        .price(new Money(new BigDecimal(100.0 * i)))
                         .imageUrl("/images/logo.png")
                         .stockQuantity(0)
                         .category(new Category(UUID.fromString("b9844ed2-ab57-4f40-916e-99d894a98c95")

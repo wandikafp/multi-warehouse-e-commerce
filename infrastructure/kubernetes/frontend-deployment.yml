@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: default
+  labels:
+    app: frontend-deployment
+spec:
+  selector:
+    matchLabels:
+      app: frontend-deployment
+  template:
+    metadata:
+      labels:
+        app: frontend-deployment
+    spec:
+      containers:
+        - name: frontend
+          image: asia-southeast2-docker.pkg.dev/wandika-project/com-multiwarehouse-e-commerce-repository/frontend:latest
+          env:
+            - name: NEXT_PUBLIC_WAREHOUSE_SERVICE_BASE_URL
+              value: "http://warehouse-service:80"
+            - name: NEXT_PUBLIC_USER_SERVICE_BASE_URL
+              value: "http://user-service:80"
+            - name: NEXT_PUBLIC_PRODUCT_SERVICE_BASE_URL
+              value: "http://product-service:80"
+            - name: NEXT_PUBLIC_ORDER_SERVICE_BASE_URL
+              value: "http://order-service:80"
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "1024Mi"
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: default
+  labels:
+    app: frontend-service
+spec:
+  selector:
+    app: frontend-deployment
+  ports:
+    - name: frontend-service-port
+      protocol: TCP
+      port: 3000
+  type: LoadBalancer
+  loadBalancerIP: ""
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-deployment-hpa
+  namespace: default
+  labels:
+    app: frontend-deployment
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: frontend-deployment
+    apiVersion: apps/v1
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 85

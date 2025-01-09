@@ -18,5 +18,4 @@ public class PaymentBaseResponse {
     private final double price;
     private final int stockQuantity;
     private final String imageUrl;
-    private final CategoryResponse category;
 }

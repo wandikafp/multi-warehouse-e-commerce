@@ -39,7 +39,7 @@ public class CartRepositoryImpl implements CartRepository {
 
     @Override
     public CartItem findByProductIdAndCustomerId(UUID productId, UUID customerID) {
-        Optional<CartItemEntity> cartItem = cartItemJpaRepository.findByProductIdAndCustomerId(productId, customerID);
+        Optional<CartItemEntity> cartItem = cartItemJpaRepository.findByProductIdAndCart_CustomerId(productId, customerID);
         return cartItem
                 .map(cartDataAccessMapper::cartItemEntityToCartItem)
                 .orElse(null);

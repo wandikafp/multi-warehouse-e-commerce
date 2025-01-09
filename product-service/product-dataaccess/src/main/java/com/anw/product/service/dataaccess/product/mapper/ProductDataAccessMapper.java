@@ -1,5 +1,6 @@
 package com.anw.product.service.dataaccess.product.mapper;
 
+import com.anw.domain.valueobject.Money;
 import com.anw.domain.valueobject.ProductId;
 import com.anw.product.service.dataaccess.product.entity.CategoryEntity;
 import com.anw.product.service.dataaccess.product.entity.ProductEntity;
@@ -14,7 +15,7 @@ public class ProductDataAccessMapper {
                 .id(product.getId().getValue())
                 .name(product.getName())
                 .description(product.getDescription())
-                .price(product.getPrice())
+                .price(product.getPrice().getAmount())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
                 .category(new CategoryEntity(
@@ -30,7 +31,7 @@ public class ProductDataAccessMapper {
                 .productId(new ProductId(entity.getId()))
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .price(entity.getPrice())
+                .price(new Money(entity.getPrice()))
                 .stockQuantity(entity.getStockQuantity())
                 .imageUrl(entity.getImageUrl())
                 .category(Category.builder()

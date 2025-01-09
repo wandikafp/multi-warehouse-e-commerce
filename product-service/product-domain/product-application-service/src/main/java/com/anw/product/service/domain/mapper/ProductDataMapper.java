@@ -1,5 +1,6 @@
 package com.anw.product.service.domain.mapper;
 
+import com.anw.domain.valueobject.Money;
 import com.anw.domain.valueobject.ProductId;
 import com.anw.product.service.domain.dto.CategoryResponse;
 import com.anw.product.service.domain.dto.ProductBaseResponse;
@@ -20,7 +21,7 @@ public class ProductDataMapper {
                 .id(product.getId().getValue())
                 .name(product.getName())
                 .description(product.getDescription())
-                .price(product.getPrice())
+                .price(product.getPrice().getAmount())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
                 .category(CategoryResponse.builder()
@@ -35,7 +36,7 @@ public class ProductDataMapper {
                 .productId(new ProductId(UUID.randomUUID()))
                 .name(createProductCommand.getName())
                 .description(createProductCommand.getDescription())
-                .price(createProductCommand.getPrice())
+                .price(new Money(createProductCommand.getPrice()))
                 .stockQuantity(createProductCommand.getStockQuantity())
                 .imageUrl(createProductCommand.getImageUrl())
                 .category(Category.builder()
@@ -49,7 +50,7 @@ public class ProductDataMapper {
                 .id(product.getId().getValue())
                 .name(product.getName())
                 .description(product.getDescription())
-                .price(product.getPrice())
+                .price(product.getPrice().getAmount())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
                 .category(CategoryResponse.builder()
@@ -64,7 +65,7 @@ public class ProductDataMapper {
                 .productId(new ProductId(updateProductCommand.getId()))
                 .name(updateProductCommand.getName())
                 .description(updateProductCommand.getDescription())
-                .price(updateProductCommand.getPrice())
+                .price(new Money(updateProductCommand.getPrice()))
                 .stockQuantity(updateProductCommand.getStockQuantity())
                 .imageUrl(updateProductCommand.getImageUrl())
                 .category(Category.builder()
@@ -78,7 +79,7 @@ public class ProductDataMapper {
                 .id(product.getId().getValue())
                 .name(product.getName())
                 .description(product.getDescription())
-                .price(product.getPrice())
+                .price(product.getPrice().getAmount())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrl(product.getImageUrl())
                 .category(CategoryResponse.builder()
