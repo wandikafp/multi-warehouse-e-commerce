@@ -47,6 +47,13 @@ public class StockRepositoryImpl implements StockRepository {
     }
 
     @Override
+    public Stock findByWarehouseIdAndProductId(UUID warehouseId, UUID productId) {
+        return stockJpaRepository.findByWarehouseIdAndProductId(warehouseId, productId)
+                .map(stockDataAccessMapper::stockEntityToStock)
+                .orElse(null);
+    }
+
+    @Override
     public Stock getById(UUID id) {
         try {
             return stockDataAccessMapper.stockEntityToStock(
@@ -55,10 +62,5 @@ public class StockRepositoryImpl implements StockRepository {
             log.error("stock with id {} is not found", id);
             throw new WarehouseDomainException("stock with id " + id + " is not found");
         }
-    }
-
-    @Override
-    public void deleteById(UUID stockId) {
-        stockJpaRepository.deleteById(stockId);
     }
 }

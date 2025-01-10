@@ -19,7 +19,7 @@ spec:
           image: asia-southeast2-docker.pkg.dev/wandika-project/com-multiwarehouse-e-commerce-repository/order.service:1.0-SNAPSHOT
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://postgres-service:5433/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
+              value: "jdbc:postgresql://postgres-service:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
             - name: SPRING_DATASOURCE_INITIALIZATION-MODE
               value: "never"
             - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
@@ -52,7 +52,7 @@ spec:
   type: LoadBalancer
   loadBalancerIP: ""
 ---
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: order-deployment-hpa
@@ -70,4 +70,6 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: 85
+        target:
+          type: Utilization
+          averageUtilization: 85

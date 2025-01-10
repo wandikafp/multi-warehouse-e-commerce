@@ -51,14 +51,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> search(String query) {
-        return orderJpaRepository.findByNameContainingIgnoreCase(query)
-                .stream()
-                .map(orderDataAccessMapper::orderEntityToOrder)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Optional<Order> findById(String orderId) {
         return orderJpaRepository.findById(UUID.fromString(orderId))
                 .map(orderDataAccessMapper::orderEntityToOrder);

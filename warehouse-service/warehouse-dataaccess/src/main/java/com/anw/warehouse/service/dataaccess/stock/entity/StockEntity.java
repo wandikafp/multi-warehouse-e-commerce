@@ -21,8 +21,13 @@ import java.util.UUID;
 public class StockEntity {
     @Id
     private UUID id;
+    @Column(nullable = false)
     private UUID warehouseId;
+    @Column(nullable = false)
     private UUID productId;
+    @Column(nullable = false)
+    private Integer reserveQuantity;
+    @Column(nullable = false)
     private Integer quantity;
 
     @CreationTimestamp

@@ -50,6 +50,9 @@ export function UserNav() {
             <DropdownMenuItem>
               <Link href="/profile">Profile</Link>
             </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="/product/list">Products</Link>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => logout()}>Log out</DropdownMenuItem>

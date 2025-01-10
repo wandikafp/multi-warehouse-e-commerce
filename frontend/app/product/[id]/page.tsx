@@ -3,9 +3,11 @@
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { productService } from "@/lib/services";
+import { productService, userService, orderService } from "@/lib/services";
 import { ProductResponse } from "@/models/product/ProductResponse";
 import useSWR from 'swr';
+import { useAuthGuard } from "@/lib/auth/use-auth";
+import { CartItemCommand } from "@/models/order/CartItemCommand";
 
 interface Params {
   id: string;
@@ -13,11 +15,11 @@ interface Params {
 
 export default function ProductDetail({ params }: { params: Params }) {
   const router = useRouter();
+  const { user } = useAuthGuard({ middleware: "auth" });
   const { id } = params;
 
   const fetcher = (url: string) => {
     const jwtToken = localStorage.getItem("jwtToken");
-    // if (!jwtToken) throw new Error("Unauthorized");
     return productService
         .get<ProductResponse>(url, {
             headers: { Authorization: `Bearer ${jwtToken}` },
@@ -27,8 +29,35 @@ export default function ProductDetail({ params }: { params: Params }) {
 
   const { data } = useSWR(`/api/product/${id}`, fetcher);
 
-  const handleAddToCart = () => {
-    alert("Product added to cart!");
+  const handleAddToCart = async () => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) {
+      alert("Unauthorized");
+      return;
+    }
+    try {
+      await orderService.post(
+        `/api/cart/${user?.id}/add`,
+        {
+          productId: data?.id,
+          name: data?.name,
+          price: data?.price,
+          stock: data?.stockQuantity,
+          imgUrl: data?.imageUrl,
+          quantity: 1,
+          subTotal: data?.price,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert("Product added to cart!");
+    } catch (error) {
+      alert("Failed to add product to cart");
+    }
   };
 
   if (!data) {

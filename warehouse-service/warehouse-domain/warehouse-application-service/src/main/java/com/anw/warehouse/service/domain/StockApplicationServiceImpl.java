@@ -4,8 +4,8 @@ import com.anw.domain.dto.PagedResponse;
 import com.anw.warehouse.service.domain.dto.StockBaseResponse;
 import com.anw.warehouse.service.domain.dto.create.CreateStockCommand;
 import com.anw.warehouse.service.domain.dto.create.CreateStockResponse;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockCommand;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockResponse;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityCommand;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityResponse;
 import com.anw.warehouse.service.domain.ports.input.service.StockApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +30,8 @@ public class StockApplicationServiceImpl implements StockApplicationService {
     }
 
     @Override
-    public UpdateStockResponse updateStock(UpdateStockCommand updateStockCommand) {
-        return stockCommandHandler.updateStock(updateStockCommand);
+    public UpdateStockQuantityResponse updateStockQuantity(UpdateStockQuantityCommand updateStockCommand) {
+        return stockCommandHandler.updateStockQuantity(updateStockCommand);
     }
 
     @Override

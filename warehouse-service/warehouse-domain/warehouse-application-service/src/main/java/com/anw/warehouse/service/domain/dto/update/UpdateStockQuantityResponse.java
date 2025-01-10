@@ -8,5 +8,5 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @AllArgsConstructor
-public class UpdateStockResponse extends StockBaseResponse {
+public class UpdateStockQuantityResponse extends StockBaseResponse {
 }

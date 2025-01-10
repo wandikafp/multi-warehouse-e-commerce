@@ -1,11 +1,15 @@
 package com.anw.order.service.domain.dto.create;
 
-import com.anw.order.service.domain.dto.OrderBaseCommand;
+import com.anw.domain.valueobject.Address;
+import com.anw.order.service.domain.entity.Warehouse;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.UUID;
+
 @Data
-public class CreateOrderCommand extends OrderBaseCommand {
-
+public class CreateOrderCommand {
+    private UUID customerId;
+    private Address deliveryAddress;
+    private Warehouse sourceWarehouse;
+    private String paymentMethod;
 }

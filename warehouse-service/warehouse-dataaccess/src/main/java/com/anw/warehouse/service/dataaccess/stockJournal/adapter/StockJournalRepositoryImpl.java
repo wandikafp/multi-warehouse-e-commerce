@@ -1,7 +1,7 @@
-package com.anw.warehouse.service.dataaccess.StockJournal.adapter;
+package com.anw.warehouse.service.dataaccess.stockJournal.adapter;
 
-import com.anw.warehouse.service.dataaccess.StockJournal.mapper.StockJournalDataAccessMapper;
-import com.anw.warehouse.service.dataaccess.StockJournal.repository.StockJournalJpaRepository;
+import com.anw.warehouse.service.dataaccess.stockJournal.mapper.StockJournalDataAccessMapper;
+import com.anw.warehouse.service.dataaccess.stockJournal.repository.StockJournalJpaRepository;
 import com.anw.warehouse.service.domain.entity.StockJournal;
 import com.anw.warehouse.service.domain.ports.output.repository.StockJournalRepository;
 import lombok.RequiredArgsConstructor;

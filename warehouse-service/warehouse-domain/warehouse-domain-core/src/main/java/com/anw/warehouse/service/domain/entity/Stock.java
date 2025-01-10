@@ -14,14 +14,23 @@ import java.util.UUID;
 public class Stock extends BaseEntity<StockId> {
     private final WarehouseId warehouseId;
     private final ProductId productId;
+    private Integer reserveQuantity;
     private Integer quantity;
 
     @Builder
-    public Stock(StockId stockId, WarehouseId warehouseId, ProductId productId, Integer quantity) {
+    public Stock(StockId stockId,
+                 WarehouseId warehouseId,
+                 ProductId productId,
+                 Integer reserveQuantity,
+                 Integer quantity) {
         super.setId(stockId);
         this.warehouseId = warehouseId;
         this.productId = productId;
         this.quantity = quantity;
+    }
+
+    public void setReserveQuantity(Integer quantity) {
+        this.reserveQuantity = reserveQuantity;
     }
 
     public void setQuantity(Integer quantity) {
@@ -32,7 +41,13 @@ public class Stock extends BaseEntity<StockId> {
         setId(new StockId(UUID.randomUUID()));
     }
 
-    private void validateStockAmount(int size) {
+    public void validateReserveQuantityAmount(int size) {
+        if (quantity == null || quantity < size) {
+            throw new StockDomainException("Stock reserve amount cannot be empty or less than wanted amount");
+        }
+    }
+
+    public void validateStockAmount(int size) {
         if (quantity == null || quantity < size) {
             throw new StockDomainException("Stock amount cannot be empty or less than wanted amount");
         }

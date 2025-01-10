@@ -10,5 +10,5 @@ public interface StockRepository {
     PagedResponse<Stock> findAllByWarehouseId(UUID warehouseId, int page, int size);
     Stock save (Stock stock);
     Stock getById(UUID id);
-    void deleteById(UUID stockId);
+    Stock findByWarehouseIdAndProductId(UUID warehouseId, UUID productId);
 }

@@ -11,5 +11,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "warehouse-service")
 public class WarehouseServiceConfig {
     private String testRequestTopicName;
+    private String stockJournalCreatedRequestTopicName;
     private List<String> allowedOrigins;
 }

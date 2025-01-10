@@ -6,8 +6,8 @@ import com.anw.domain.valueobject.WarehouseId;
 import com.anw.warehouse.service.domain.dto.StockBaseResponse;
 import com.anw.warehouse.service.domain.dto.create.CreateStockCommand;
 import com.anw.warehouse.service.domain.dto.create.CreateStockResponse;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockCommand;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockResponse;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityCommand;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityResponse;
 import com.anw.warehouse.service.domain.entity.Stock;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +39,7 @@ public class StockDataMapper {
                 .build();
     }
 
-    public Stock updateStockCommandToStock(UpdateStockCommand command) {
+    public Stock updateStockQuantityCommandToStock(UpdateStockQuantityCommand command) {
         return Stock.builder()
                 .stockId(new StockId(command.getId()))
                 .warehouseId(new WarehouseId(command.getWarehouseId()))
@@ -48,8 +48,8 @@ public class StockDataMapper {
                 .build();
     }
 
-    public UpdateStockResponse stockToUpdateStockResponse(Stock stock) {
-        return UpdateStockResponse.builder()
+    public UpdateStockQuantityResponse stockToUpdateStockResponse(Stock stock) {
+        return UpdateStockQuantityResponse.builder()
                 .id(stock.getId().getValue())
                 .warehouseId(stock.getWarehouseId().getValue())
                 .productId(stock.getProductId().getValue())

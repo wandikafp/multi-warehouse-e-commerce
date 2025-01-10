@@ -1,5 +1,8 @@
 package com.anw.domain.valueobject;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class Address {
     private final String street;
     private final String city;

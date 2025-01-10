@@ -1,15 +1,13 @@
 package com.anw.order.service.domain.mapper;
 
-import com.anw.domain.valueobject.CartItemId;
-import com.anw.domain.valueobject.Money;
-import com.anw.domain.valueobject.ProductId;
-import com.anw.domain.valueobject.UserId;
+import com.anw.domain.valueobject.*;
 import com.anw.order.service.domain.dto.CartItemCommand;
 import com.anw.order.service.domain.dto.CartItemResponse;
 import com.anw.order.service.domain.dto.CartResponse;
 import com.anw.order.service.domain.entity.Cart;
 import com.anw.order.service.domain.entity.CartItem;
 import com.anw.order.service.domain.entity.Product;
+import com.anw.order.service.domain.entity.Warehouse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -59,6 +57,17 @@ public class CartDataMapper {
                 .quantity(command.getQuantity())
                 .subTotal(new Money(command.getSubTotal()))
                 .userId(new UserId(customerId))
+                .build();
+    }
+
+    public Address warehouseToAddress(Warehouse warehouse) {
+        return Address.builder()
+                .street(warehouse.getStreet())
+                .city(warehouse.getCity())
+                .province(warehouse.getProvince())
+                .postalCode(warehouse.getPostalCode())
+                .latitude(warehouse.getLatitude())
+                .longitude(warehouse.getLongitude())
                 .build();
     }
 }

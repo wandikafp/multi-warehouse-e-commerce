@@ -14,12 +14,12 @@ import { orderService } from "@/lib/services";
 import { CartResponse, CartItem } from "@/models/order/CartResponse";
 import { useEffect } from "react";
 import { useAuthGuard } from "@/lib/auth/use-auth";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
-  // const [cart, setCart] = useState<CartItem[]>(initialCart);
   const [cart, setCart] = useState<CartResponse | null>(null);
-
   const { user } = useAuthGuard({ middleware: "auth" });
+  const router = useRouter();
 
   const fetchData = () => {
     if (!user) return; // Ensure user is defined before making the API call
@@ -38,7 +38,10 @@ export default function CartPage() {
   const handleQuantityChange = (cartItem: CartItem, newQuantity: number) => {
     const jwtToken = localStorage.getItem("jwtToken");
     orderService.put<CartResponse>(`/api/cart/${user?.id}/update`, {
-      headers: { Authorization: `Bearer ${jwtToken}` },
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+        "Content-Type": "application/json",
+      },
       data: { ...cartItem, quantity: newQuantity }
     }).then(cart => {
       setCart(cart.data);
@@ -55,6 +58,10 @@ export default function CartPage() {
       setCart(cart.data);
       alert('Cart item deleted successfully');
     });
+  };
+
+  const handleProceedToCheckout = () => {
+    router.push('/checkout');
   };
 
   return (
@@ -123,7 +130,11 @@ export default function CartPage() {
 
       <div className="mt-6">
         <h2 className="text-lg font-semibold">Total Price: Rp {cart?.totalPrice}</h2>
-        <Button disabled={cart?.cartItems.length === 0} className="mt-4">
+        <Button
+          disabled={cart?.cartItems.length === 0}
+          className="mt-4"
+          onClick={handleProceedToCheckout}
+        >
           Proceed to Checkout
         </Button>
       </div>

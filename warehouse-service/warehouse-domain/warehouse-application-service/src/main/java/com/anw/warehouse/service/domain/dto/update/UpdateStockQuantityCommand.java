@@ -8,6 +8,6 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UpdateStockCommand extends StockBaseCommand {
+public class UpdateStockQuantityCommand extends StockBaseCommand {
     private UUID id;
 }

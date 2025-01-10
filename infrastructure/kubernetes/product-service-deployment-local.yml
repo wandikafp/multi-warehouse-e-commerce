@@ -19,11 +19,11 @@ spec:
           image: com.anw/product.service:1.0-SNAPSHOT
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://host.docker.internal:5432/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
+              value: "jdbc:postgresql://postgres-service:5433/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
             - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
-              value: "local-confluent-kafka-cp-kafka-headless:9092"
+              value: "my-confluent-cp-kafka-headless:9092"
             - name: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
-              value: "http://local-confluent-kafka-cp-schema-registry:8081"
+              value: "http://my-confluent-cp-schema-registry:8081"
           resources:
             limits:
               cpu: "500m"
@@ -49,7 +49,7 @@ spec:
   type: LoadBalancer
   loadBalancerIP: ""
 ---
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: product-deployment-hpa
@@ -67,4 +67,6 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: 85
+        target:
+          type: Utilization
+          averageUtilization: 85

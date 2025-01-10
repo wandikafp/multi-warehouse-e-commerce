@@ -9,6 +9,5 @@ public interface OrderRepository {
     List<Order> findAll(int page, int size);
     Order save (Order order);
     Order getById(Order order);
-    List<Order> search(String query);
     Optional<Order> findById(String orderId);
 }

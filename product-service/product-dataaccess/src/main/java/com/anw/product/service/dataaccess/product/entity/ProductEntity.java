@@ -33,7 +33,7 @@ public class ProductEntity {
     @Column(nullable = false)
     private int stockQuantity;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String imageUrl;
 
     @CreationTimestamp

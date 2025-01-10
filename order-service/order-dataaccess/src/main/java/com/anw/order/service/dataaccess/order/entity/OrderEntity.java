@@ -1,9 +1,11 @@
 package com.anw.order.service.dataaccess.order.entity;
 
+import com.anw.domain.valueobject.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.ZonedDateTime;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -17,19 +19,29 @@ public class OrderEntity {
     @Id
     private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItemEntity> items;
 
-    @Column(nullable = false)
-    private String description;
+    private String destinationStreet;
+    private String destinationCity;
+    private String destinationProvince;
+    private String destinationPostalCode;
+    private double destinationLongitude;
+    private double destinationLatitude;
 
-    @Column(nullable = false)
-    private double price;
+    private String sourceStreet;
+    private String sourceCity;
+    private String sourceProvince;
+    private String sourcePostalCode;
+    private double sourceLongitude;
+    private double sourceLatitude;
 
-    @Column(nullable = false)
-    private int stockQuantity;
+    private OrderStatus status;
 
-    @Column(nullable = false)
-    private String imageUrl;
+    private BigDecimal shippingPrice;
+
+    private BigDecimal subTotalPrice;
+
+    private UUID trackingId;
 
 }

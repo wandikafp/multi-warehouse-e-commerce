@@ -4,8 +4,8 @@ import com.anw.domain.dto.PagedResponse;
 import com.anw.warehouse.service.domain.dto.StockBaseResponse;
 import com.anw.warehouse.service.domain.dto.create.CreateStockCommand;
 import com.anw.warehouse.service.domain.dto.create.CreateStockResponse;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockCommand;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockResponse;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityCommand;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityResponse;
 import com.anw.warehouse.service.domain.ports.input.service.StockApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class StockController {
     }
 
     @GetMapping
-    public ResponseEntity<PagedResponse<StockBaseResponse>> getWarehouses(
+    public ResponseEntity<PagedResponse<StockBaseResponse>> getStocks(
             @RequestParam UUID warehouseId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
@@ -42,9 +42,9 @@ public class StockController {
         return ResponseEntity.ok(createStockResponse);
     }
     @PutMapping
-    public ResponseEntity<UpdateStockResponse> updateStock(@RequestBody UpdateStockCommand updateStockCommand) {
-        log.info("Updating stock: ");
-        UpdateStockResponse updateStockResponse = stockApplicationService.updateStock(updateStockCommand);
+    public ResponseEntity<UpdateStockQuantityResponse> updateStockQuantity(@RequestBody UpdateStockQuantityCommand updateStockCommand) {
+        log.info("Updating stock quantity: ");
+        UpdateStockQuantityResponse updateStockResponse = stockApplicationService.updateStockQuantity(updateStockCommand);
         log.info("Stock updated with id: {}", updateStockResponse);
         return ResponseEntity.ok(updateStockResponse);
     }

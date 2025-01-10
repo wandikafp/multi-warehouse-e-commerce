@@ -5,6 +5,7 @@ import com.anw.order.service.domain.dto.CartResponse;
 import com.anw.order.service.domain.dto.CheckoutCommand;
 import com.anw.order.service.domain.dto.CheckoutResponse;
 import com.anw.order.service.domain.ports.input.service.CartApplicationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping(value = "/api/cart", produces = "application/json")
+@Slf4j
 public class CartController {
 
     private final CartApplicationService cartApplicationService;
@@ -37,6 +39,7 @@ public class CartController {
     @PostMapping("/{customerId}/add")
     public ResponseEntity<CartResponse> addItemToCart(@PathVariable UUID customerId, @RequestBody CartItemCommand cartItem) {
         // Add item to cart
+        log.info("add product: {} with price: {}", cartItem.getProductId(), cartItem.getPrice());
         CartResponse cart = cartApplicationService.addItemToCart(customerId, cartItem);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }

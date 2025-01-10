@@ -5,10 +5,12 @@ import com.anw.domain.dto.PagedResponse;
 import com.anw.warehouse.service.domain.dto.StockBaseResponse;
 import com.anw.warehouse.service.domain.dto.create.CreateStockCommand;
 import com.anw.warehouse.service.domain.dto.create.CreateStockResponse;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockCommand;
-import com.anw.warehouse.service.domain.dto.update.UpdateStockResponse;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityCommand;
+import com.anw.warehouse.service.domain.dto.update.UpdateStockQuantityResponse;
 import com.anw.warehouse.service.domain.entity.Stock;
+import com.anw.warehouse.service.domain.entity.StockJournal;
 import com.anw.warehouse.service.domain.event.StockCreatedEvent;
+import com.anw.warehouse.service.domain.event.StockJournalCreatedEvent;
 import com.anw.warehouse.service.domain.mapper.StockDataMapper;
 import com.anw.warehouse.service.domain.ports.output.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,22 +38,53 @@ public class StockCommandHandler {
                         .map(stockDataMapper::stockToStockBaseResponse)
                         .collect(Collectors.toList()));
     }
-    
+
     public CreateStockResponse createStock(CreateStockCommand createStockCommand) {
-        Stock warehouse = stockDataMapper.createStockCommandToStock(createStockCommand);
-        StockCreatedEvent stockCreatedEvent = stockHelper.persistCreateStock(warehouse);
+        Stock stock = stockDataMapper.createStockCommandToStock(createStockCommand);
+        StockCreatedEvent stockCreatedEvent = stockHelper.persistCreateStock(stock);
         log.info("stock is created with id: {}", stockCreatedEvent.getStock().getId().getValue());
+        StockJournal journal = StockJournal.builder()
+                .id(UUID.randomUUID())
+                .stockId(stock.getId())
+                .warehouseId(stock.getWarehouseId())
+                .productId(stock.getProductId())
+                .quantityChange(stock.getQuantity())
+                .reason("creation")
+                .build();
+        StockJournalCreatedEvent stockJournalCreatedEvent = stockHelper.persistCreateStockJournal(journal);
+        stockJournalCreatedEvent.fire();
         return stockDataMapper.stockToCreateStockResponse(stockCreatedEvent.getStock());
     }
 
-    public UpdateStockResponse updateStock(UpdateStockCommand updateStockCommand) {
-        Stock stock = stockDataMapper.updateStockCommandToStock(updateStockCommand);
-        stock = stockHelper.persistUpdateStock(stock);
+    public UpdateStockQuantityResponse updateStockQuantity(UpdateStockQuantityCommand updateStockQuantityCommand) {
+        Stock stock = stockDataMapper.updateStockQuantityCommandToStock(updateStockQuantityCommand);
+        stock = stockHelper.persistUpdateStockQuantity(stock);
+        log.info("stock with id is updated: {}", stock.getId().getValue());
+        StockJournal journal = StockJournal.builder()
+                .id(UUID.randomUUID())
+                .stockId(stock.getId())
+                .warehouseId(stock.getWarehouseId())
+                .productId(stock.getProductId())
+                .quantityChange(stock.getQuantity())
+                .reason("quantity modification")
+                .build();
+        StockJournalCreatedEvent stockJournalCreatedEvent = stockHelper.persistCreateStockJournal(journal);
+        stockJournalCreatedEvent.fire();
         return stockDataMapper.stockToUpdateStockResponse(stock);
     }
 
     @Transactional
     public void deleteStock(UUID stockId) {
-        stockHelper.persistRemoveStock(stockId);
+        Stock stock = stockHelper.persistRemoveStock(stockId);
+        StockJournal journal = StockJournal.builder()
+                .id(UUID.randomUUID())
+                .stockId(stock.getId())
+                .warehouseId(stock.getWarehouseId())
+                .productId(stock.getProductId())
+                .quantityChange(stock.getQuantity()*-1)
+                .reason("removal")
+                .build();
+        StockJournalCreatedEvent stockJournalCreatedEvent = stockHelper.persistCreateStockJournal(journal);
+        stockJournalCreatedEvent.fire();
     }
 }
